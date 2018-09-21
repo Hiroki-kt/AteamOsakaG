@@ -29,6 +29,7 @@ public class Board : MonoBehaviour {
 	private string currentType;
 	private string currentColor;
 	private Piece firstPiece;
+    private string TF;
 
 	//-------------------------------------------------------
 	// Public Function
@@ -132,60 +133,34 @@ public class Board : MonoBehaviour {
 	}
 
 	// 回転
-    public void Rotation(){
-        float speed = 300f;
+    // 初期座標の調整が本来は必要
+    public void Rotation(float rot){
+        
+        // 回転します。ボードごと回転。
+        float speed = 1f;
         float step = speed * Time.deltaTime;
         var target = GameObject.Find("Board").transform;
-        //transform.position = new Vector3(0.0f,-81.82337f,0.0f);
-        // 指定した方向にゆっくり回転する場合
-        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 90f), step);
 
-        /*
-        Vector3 targetdir = target.position - transform.position;
-        targetdir.y = transform.position.y;
-        float step = speed * Time.deltaTime;
-        Vector3 newdir = Vector3.RotateTowards(transform.forward, targetdir, step, 10.0f);
-        transform.rotation = Quaternion.LookRotation(newdir);
-        *?
-        /*
-        var originboard = board;
-        rotboard = new Piece[width,height];
-        //RotationPiece(new Vector2(5, 5), board[5, 5], originboard);
-
-		for (int i = 0; i < 3; i++)
-		{
-            for (int j = 0; j < 3; j++)
-            {
-                RotationPiece(new Vector2(i, j), board[i, j], originboard);
-            }
-		}
-        for (int i = 3; i < width; i++)
-        {
-            for (int j = 3; j < height; j++)
-            {
-                RotationPiece(new Vector2(i, j), board[i, j], originboard);
-            }
+        while (transform.rotation != Quaternion.Euler(0,0,rot)){
+            // 指定した方向にゆっくり回転する場合
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
+              
         }
 
-
-        
-        for (int i = 0; i < 3; i++)
+        // 回転後の座標の変換
+        rotboard = new Piece[width, height];
+        for (int i = 0; i < width; i++)
         {
-            for (int j = 3; j < height; j++)
+            for (int j = 0; j < height; j++)
             {
-                RotationPiece(new Vector2(i, j), board[i, j], originboard);
+                RotationPiece(new Vector2 (i,j));
+
             }
         }
-
-        for (int i = 3; i < width; i++)
-        {
-            for (int j = 0; j < 3; j++)
-            {
-                RotationPiece(new Vector2(i, j), board[i, j], originboard);
-            }
-        }
-        */
+        board = rotboard;
+        Debug.Log(board[0, 0].transform.position);
 	}
+
 
     //　一旦赤色をキャラの属性と考える
     // キャラの属性導入後、キャラの属性取得実装
@@ -215,47 +190,29 @@ public class Board : MonoBehaviour {
             {
                 ColorTypeList.Add(TypeList[ColorIdList[i]]);
             }
-            GetCalulationOff();
-            GetCalulationDef();
-            GetCalulationSki();
+            //GetCalulationOff();
+            Debug.Log("Offence");
+            Debug.Log(GetCalulationOff());
+            //GetCalulationDef();
+            Debug.Log("Defence");
+            Debug.Log(GetCalulationDef());
+            //GetCalulationSki();
+            Debug.Log("Skill");
+            Debug.Log(GetCalulationSki());
         }else{
-            GetCalulationDefNotColor();
-            GetCalulationOffNotColor();
-            GetCalulationSkiNotColor();
+            //GetCalulationOffNotColor();
+            Debug.Log("Offence");
+            Debug.Log(GetCalulationOffNotColor());
+            //GetCalulationDefNotColor();
+            Debug.Log("Defence");
+            Debug.Log(GetCalulationDefNotColor());
+            //GetCalulationSkiNotColor();
+            Debug.Log("Skill");
+            Debug.Log(GetCalulationSkiNotColor());
         }
 
 
 
-    }
-
-    // キャラと同属性は個数×３、その他は個数×１　それぞれのタイプのステータス上昇
-    private int GetCalulationOff(){
-        return TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
-    }
-
-    private int GetCalulationDef()
-    {
-        return TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
-    }
-
-    private int GetCalulationSki()
-    {
-        return TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
-    }
-
-    private int GetCalulationOffNotColor()
-    {
-        return TypeList.Count(x => x == "Offence");
-    }
-
-    private int GetCalulationDefNotColor()
-    {
-        return TypeList.Count(x => x == "Defence");
-    }
-
-    private int GetCalulationSkiNotColor()
-    {
-        return TypeList.Count(x => x == "Skill");
     }
 
 		
@@ -304,28 +261,43 @@ public class Board : MonoBehaviour {
 		if (firstPiece != null) {
 			//1つ以上のボールをなぞっているとき
 			var length = removableBallList.Count;
-			if (length >= 3) {
-				//消去するリストに３個以上ボールがあれば（ボールが三個以上つながっていたら）
-				for (var i = 0; i < length; i++) {
-					Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
-				}
-			} else {
-				//消去するリストに3個以上ボールがないとき
-				for (var j = 0; j < length; j++) {
-					var listedBall = removableBallList[j];
-					listedBall.SetPieceAlpha (1.0f);
-					listedBall.name = listedBall.name.Substring(1, 5); //Ballの名前を元に戻す
-				}
+			for (var i = 0; i < length; i++) {
+				Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
 			}
+			
 			firstPiece = null; //変数の初期化
 		}
 	}
 
-	//-------------------------------------------------------
-	// Private Function
-	//-------------------------------------------------------
-	// 特定の位置にピースを作成する
-	private void CreatePiece(Vector2 position)
+    public void OnDragEndNG()
+    {
+        for (var j = 0; j < removableBallList.Count;j++){
+            var listedBall = removableBallList[j];
+            listedBall.SetPieceAlpha(1.0f);
+        }
+
+    }
+
+    // スタートとゴールのピースが含まれているか？
+    public string GetStartGoal(){
+        TF = null;
+        //Debug.Log(removableBallList[0].transform.position);
+        //Debug.Log(board[5, 5].transform.position);
+        //Debug.Log(board[0, 0].transform.position);
+        //Debug.Log(removableBallList[removableBallList.Count -1].transform.position);
+        if(removableBallList[removableBallList.Count - 1].transform.position == board[0,0].transform.position && removableBallList[0].transform.position == board[5,5].transform.position){
+            TF = "True";
+        }
+        else{
+            TF = "False";
+        }
+        return TF;
+    }
+    //-------------------------------------------------------
+    // Private Function
+    //-------------------------------------------------------
+    // 特定の位置にピースを作成する
+    private void CreatePiece(Vector2 position)
 	{
 		// ピースの生成位置を求める
 		var createPos = GetPieceWorldPos(position);
@@ -343,6 +315,7 @@ public class Board : MonoBehaviour {
 
 		// 盤面にピースの情報をセットする
 		board[(int)position.x, (int)position.y] = piece;
+        //Debug.Log(piece.transform.position);
 	
 	}
 
@@ -469,30 +442,65 @@ public class Board : MonoBehaviour {
         TypeList.Add(type);
 	}
 
-	// 回転
-    private void RotationPiece(Vector2 Pos, Piece piece, Piece[,] originboard){
+	// 回転後の座標更新
+    private void RotationPiece(Vector2 Pos){
+        
         var worldPos = GetPieceRealWorldPos(Pos);
         // 90°回転
+
 		Quaternion rot = Quaternion.AngleAxis(90.0f, Vector3.forward);
         Quaternion rotback = Quaternion.AngleAxis(-45.0f, Vector3.forward);
         // ピースの生成位置を求める
+
         var createPos = rot * worldPos + (float)Screen.width / 2 * new Vector3(1, 0, 0);
+
         createPos = rotback * createPos ;
+
         var boardPos = new Vector2((createPos.x - (pieceWidth / 2)) / pieceWidth + 0.35f , (createPos.y - (pieceWidth / 2)) / pieceWidth + 0.35f);
+
         if (boardPos.x < 0){
             boardPos.x = 0.0f;
         }
-        Debug.Log(Pos);
-        Debug.Log(boardPos);
-        var piece2 = originboard[(int)boardPos.x, (int)boardPos.y];
-        var p1 = piece.transform.position;
-        piece.transform.position = piece2.transform.position;
-        // 盤面にピースの情報をセットする
-        Debug.Log(piece2.transform.position);
-        Debug.Log(p1);
-        board[(int)boardPos.x, (int)boardPos.y] = piece;
+       
+        //Debug.Log((int)Pos.x);
+        //Debug.Log((int)Pos.y);
 
+        //Debug.Log(board[(int)Pos.x,(int)Pos.y].transform.position);
+        //Debug.Log(board[(int)boardPos.x, (int)boardPos.y].transform.position);
+        rotboard[(int)boardPos.x, (int)boardPos.y] = board[(int)Pos.x,(int)Pos.y];
+        //Debug.Log(rotboard[(int)boardPos.x, (int)boardPos.y].transform.position);
 	}
+
+    // キャラと同属性は個数×３、その他は個数×１　それぞれのタイプのステータス上昇
+    private int GetCalulationOff()
+    {
+        return TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
+    }
+
+    private int GetCalulationDef()
+    {
+        return TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
+    }
+
+    private int GetCalulationSki()
+    {
+        return TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
+    }
+
+    private int GetCalulationOffNotColor()
+    {
+        return TypeList.Count(x => x == "Offence");
+    }
+
+    private int GetCalulationDefNotColor()
+    {
+        return TypeList.Count(x => x == "Defence");
+    }
+
+    private int GetCalulationSkiNotColor()
+    {
+        return TypeList.Count(x => x == "Skill");
+    }
 
 
 }

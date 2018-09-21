@@ -39,6 +39,8 @@ public class GameManager : MonoBehaviour {
 	private GameState currentState;
 	private Piece selectedPiece;
 	private Piece firstPiece;
+    private float countRotaion = 1.0f;
+    private int countMove;
 
 	//-------------------------------------------------------
 	// MonoBehaviour Function
@@ -113,7 +115,9 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetMouseButtonDown(0))
 		{
 			selectedPiece = board.GetNearestPiece(Input.mousePosition);
+            countMove = 1;
 			currentState = GameState.PieceMove;
+
 		}
 	}
 
@@ -126,8 +130,16 @@ public class GameManager : MonoBehaviour {
 			var piece = board.GetNearestPiece(Input.mousePosition);
 			if (piece != selectedPiece)
 			{
-				board.SwitchPiece(selectedPiece, piece);
+                if(countMove < 2){
+                    board.SwitchPiece(selectedPiece, piece);
+                    countMove += 1;
+                    //Debug.Log("OK");
+                }
+                else{
+                    currentState = GameState.Idle;
+                }
 			}
+
 		}
 		else if (Input.GetMouseButtonUp(0)) {
 			currentState = GameState.Idle;
@@ -153,9 +165,15 @@ public class GameManager : MonoBehaviour {
 	// 関数作成×2
 	private void DeleteTracingPiece()
 	{
-		board.OnDragEnd ();
-		board.GetCalculation ();
-		currentState = GameState.FillPiece;
+        if(board.GetStartGoal() == "True"){
+            board.OnDragEnd();
+            board.GetCalculation();
+            currentState = GameState.FillPiece;
+        }
+        else if(board.GetStartGoal() == "False"){
+            board.OnDragEndNG();
+            currentState = GameState.TracingIdle;
+        }
 	}
 
     // 降ってきたピースが全く同じだった場合、３マッチパズル
@@ -217,10 +235,13 @@ public class GameManager : MonoBehaviour {
 	}
 
 
-	// 90°回転右回り
-	private void Rotation()
-	{
-		board.Rotation ();
-		currentState = GameState.Idle;
-	}
+    // 90°回転右回り
+    private void Rotation()
+    {
+        Debug.Log("TurnCount");
+        Debug.Log(countRotaion);
+        board.Rotation(countRotaion * 90.0f);
+        countRotaion += 1.0f;
+        currentState = GameState.Idle;
+    }
 }
