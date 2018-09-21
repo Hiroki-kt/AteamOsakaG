@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 // 盤面クラス
 public class Board : MonoBehaviour {
@@ -9,13 +10,25 @@ public class Board : MonoBehaviour {
 	// serialize field.
 	[SerializeField]
 	private GameObject piecePrefab;
+	[SerializeField]
+	private GameObject Red_of;
 
 	// private.
 	private Piece[,] board;
+    private Piece[,] rotboard;
 	private int width;
 	private int height;
 	private int pieceWidth;
 	private int randomSeed;
+	private List<Piece> removableBallList;
+    private List<string> ColorList;
+    private List<string> ColorTypeList;
+    private List<int> ColorIdList;
+    private List<string> TypeList;
+	private Piece LastPiece;
+	private string currentType;
+	private string currentColor;
+	private Piece firstPiece;
 
 	//-------------------------------------------------------
 	// Public Function
@@ -23,10 +36,10 @@ public class Board : MonoBehaviour {
 	// 特定の幅と高さに盤面を初期化する
 	public void InitializeBoard(int boardWidth, int boardHeight)
 	{
-		width = boardWidth;
+		width = boardWidth ;
 		height = boardHeight;
 
-		pieceWidth = Screen.width / boardWidth;
+		pieceWidth = Screen.width / (boardWidth + 2);
 
 		board = new Piece[width, height];
 
@@ -118,6 +131,196 @@ public class Board : MonoBehaviour {
 		}
 	}
 
+	// 回転
+    public void Rotation(){
+        float speed = 300f;
+        float step = speed * Time.deltaTime;
+        var target = GameObject.Find("Board").transform;
+        //transform.position = new Vector3(0.0f,-81.82337f,0.0f);
+        // 指定した方向にゆっくり回転する場合
+        transform.rotation = Quaternion.RotateTowards(transform.rotation, Quaternion.Euler(0, 0, 90f), step);
+
+        /*
+        Vector3 targetdir = target.position - transform.position;
+        targetdir.y = transform.position.y;
+        float step = speed * Time.deltaTime;
+        Vector3 newdir = Vector3.RotateTowards(transform.forward, targetdir, step, 10.0f);
+        transform.rotation = Quaternion.LookRotation(newdir);
+        *?
+        /*
+        var originboard = board;
+        rotboard = new Piece[width,height];
+        //RotationPiece(new Vector2(5, 5), board[5, 5], originboard);
+
+		for (int i = 0; i < 3; i++)
+		{
+            for (int j = 0; j < 3; j++)
+            {
+                RotationPiece(new Vector2(i, j), board[i, j], originboard);
+            }
+		}
+        for (int i = 3; i < width; i++)
+        {
+            for (int j = 3; j < height; j++)
+            {
+                RotationPiece(new Vector2(i, j), board[i, j], originboard);
+            }
+        }
+
+
+        
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 3; j < height; j++)
+            {
+                RotationPiece(new Vector2(i, j), board[i, j], originboard);
+            }
+        }
+
+        for (int i = 3; i < width; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                RotationPiece(new Vector2(i, j), board[i, j], originboard);
+            }
+        }
+        */
+	}
+
+    //　一旦赤色をキャラの属性と考える
+    // キャラの属性導入後、キャラの属性取得実装
+    public void GetCalculation()
+    {
+        ColorTypeList = new List<string>();
+        ColorIdList = new List<int>();
+        // 一番目の同属性のピースの番号
+        int ColorId = ColorList.IndexOf("Red");
+        if (ColorId != -1){
+            ColorIdList.Add(ColorId);
+    
+        }
+
+        // キャラと同属性のピース探し
+        while (ColorId != -1)
+        {
+            ColorId = ColorList.IndexOf("Red", ColorId + 1);
+            ColorIdList.Add(ColorId);
+
+        }
+
+        if (ColorIdList.Count > 0)
+        {
+            // キャラと同属性のピースの番号と同じ番号のタイプを取得
+            for (int i = 0; i > ColorIdList.Count(); i++)
+            {
+                ColorTypeList.Add(TypeList[ColorIdList[i]]);
+            }
+            GetCalulationOff();
+            GetCalulationDef();
+            GetCalulationSki();
+        }else{
+            GetCalulationDefNotColor();
+            GetCalulationOffNotColor();
+            GetCalulationSkiNotColor();
+        }
+
+
+
+    }
+
+    // キャラと同属性は個数×３、その他は個数×１　それぞれのタイプのステータス上昇
+    private int GetCalulationOff(){
+        return TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
+    }
+
+    private int GetCalulationDef()
+    {
+        return TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
+    }
+
+    private int GetCalulationSki()
+    {
+        return TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
+    }
+
+    private int GetCalulationOffNotColor()
+    {
+        return TypeList.Count(x => x == "Offence");
+    }
+
+    private int GetCalulationDefNotColor()
+    {
+        return TypeList.Count(x => x == "Defence");
+    }
+
+    private int GetCalulationSkiNotColor()
+    {
+        return TypeList.Count(x => x == "Skill");
+    }
+
+		
+	//---------------------------------------------------------
+	// Publi  なぞり動作
+	//---------------------------------------------------------
+
+	public void OnDragStart(Piece piece) {
+		//var col = piece;
+		if (piece != null) {
+			//var colObj = (GameObject)col;
+			removableBallList = new List<Piece>();//初期化
+            ColorList = new List<string>();
+            TypeList = new List<string>();
+			firstPiece = piece;
+			currentType = piece.GetKindType();
+			currentColor = piece.GetKindColor();
+			PushToList(piece, currentColor, currentType);
+		}
+	}
+
+	public void OnDragging(Piece piece) {
+		if (piece != null) {
+			//なにかをドラッグしているとき
+			//var colObj = col.gameObject;
+			var piececolor = piece.GetKindColor ();
+			var piecetype = piece.GetKindType ();
+			if (piececolor == currentColor || piecetype == currentType) {
+				//現在リストに追加している色と同じ色のボールのとき
+				if (LastPiece != piece) {
+					//直前にリストにいれたのと異なるボールのとき
+					var dist = Vector3.Distance (LastPiece.transform.position, piece.transform.position); //直前のボールと現在のボールの距離を計算
+                    if (dist <= 30) {
+						//ボール間の距離が一定値以下のとき
+						PushToList (piece, piececolor, piecetype); //消去するリストにボールを追加
+                        currentType = piecetype;
+                        currentColor = piececolor;
+					}
+				}
+			}
+		}
+	}
+
+    // スタートとゴールの値があったら、消すそれ以外は戻す
+	public void OnDragEnd() {
+		if (firstPiece != null) {
+			//1つ以上のボールをなぞっているとき
+			var length = removableBallList.Count;
+			if (length >= 3) {
+				//消去するリストに３個以上ボールがあれば（ボールが三個以上つながっていたら）
+				for (var i = 0; i < length; i++) {
+					Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
+				}
+			} else {
+				//消去するリストに3個以上ボールがないとき
+				for (var j = 0; j < length; j++) {
+					var listedBall = removableBallList[j];
+					listedBall.SetPieceAlpha (1.0f);
+					listedBall.name = listedBall.name.Substring(1, 5); //Ballの名前を元に戻す
+				}
+			}
+			firstPiece = null; //変数の初期化
+		}
+	}
+
 	//-------------------------------------------------------
 	// Private Function
 	//-------------------------------------------------------
@@ -126,7 +329,9 @@ public class Board : MonoBehaviour {
 	{
 		// ピースの生成位置を求める
 		var createPos = GetPieceWorldPos(position);
-
+		// 45°回転
+		Quaternion rot = Quaternion.AngleAxis(45.0f,Vector3.forward);
+		createPos = rot * createPos + (float)Screen.width/2 * new Vector3(1,0,0);
 		// 生成するピースの種類をランダムに決める
 		var kind = (PieceKind)UnityEngine.Random.Range(0, Enum.GetNames(typeof(PieceKind)).Length);
 
@@ -138,13 +343,24 @@ public class Board : MonoBehaviour {
 
 		// 盤面にピースの情報をセットする
 		board[(int)position.x, (int)position.y] = piece;
+	
 	}
 
 	// 盤面上の位置からピースオブジェクトのワールド座標での位置を返す
 	private Vector3 GetPieceWorldPos(Vector2 boardPos)
 	{
-		return new Vector3(boardPos.x* pieceWidth + (pieceWidth / 2), boardPos.y* pieceWidth + (pieceWidth / 2), 0);
+        return new Vector3(boardPos.x * pieceWidth + (pieceWidth / 2), boardPos.y * pieceWidth + (pieceWidth / 2), 0);
+
 	}
+
+    private Vector3 GetPieceRealWorldPos(Vector2 boardPos)
+    {
+        var worldpos = new Vector3(boardPos.x * pieceWidth + (pieceWidth / 2), boardPos.y * pieceWidth + (pieceWidth / 2), 0);
+        Quaternion rot = Quaternion.AngleAxis(45.0f, Vector3.forward);
+        return rot * worldpos + (float)Screen.width / 2 * new Vector3(1, 0, 0);
+
+    }
+
 
 	// ピースが盤面上のどの位置にあるのかを返す
 	private Vector2 GetPieceBoardPos(Piece piece)
@@ -163,23 +379,28 @@ public class Board : MonoBehaviour {
 		return Vector2.zero;
 	}
 
-	// 対象のピースがマッチしているかの判定を行う
-	private bool IsMatchPiece(Piece piece)
-	{
-		// ピースの情報を取得
-		var pos = GetPieceBoardPos(piece);
-		var kind = piece.GetKind();
+    // 対象のピースがマッチしているかの判定を行う
+    private bool IsMatchPiece(Piece piece)
+    {
+        // ピースの情報を取得
+        var pos = GetPieceBoardPos(piece);
+        //var color = piece.GetKindColor();
+        //var type = piece.GetKindType ();
+        var kind = piece.GetKind();
 
-		// 縦方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
-		var verticalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.up) + GetSameKindPieceNum(kind, pos, Vector2.down) + 1;
+        // 縦方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
+        var verticalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.up) + GetSameKindPieceNum(kind, pos, Vector2.down) + 1;
+        //var verticalMatchCountType = GetSameKindPieceNumType(type, pos, Vector2.up) + GetSameKindPieceNumType(type, pos, Vector2.down) + 1;
 
-		// 横方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
-		var horizontalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.right) + GetSameKindPieceNum(kind, pos, Vector2.left) + 1;
+        // 横方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
+        var horizontalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.right) + GetSameKindPieceNum(kind, pos, Vector2.left) + 1;
+        //var horizontalMatchCountType = GetSameKindPieceNumType(type, pos, Vector2.right) + GetSameKindPieceNumType(type, pos, Vector2.left) + 1;
 
-		return verticalMatchCount >= GameManager.MachingCount || horizontalMatchCount >= GameManager.MachingCount;
-	}
+        return verticalMatchCount >= GameManager.MachingCount || horizontalMatchCount >= GameManager.MachingCount;
+    }
 
 	// 対象の方向に引数で指定したの種類のピースがいくつあるかを返す
+	// ピース色の確認
 	private int GetSameKindPieceNum(PieceKind kind, Vector2 piecePos, Vector2 searchDir)
 	{
 		var count = 0;
@@ -198,6 +419,8 @@ public class Board : MonoBehaviour {
 		return count;
 	}
 
+
+
 	// 対象の座標がボードに存在するか(ボードからはみ出していないか)を判定する
 	private bool IsInBoard(Vector2 pos)
 	{
@@ -214,6 +437,8 @@ public class Board : MonoBehaviour {
 			return;
 		}
 
+		/*
+		// 実際はこの部分もしっかり考える必要有り。一旦パス
 		// 対象のピースより上方向に有効なピースがあるかを確認、あるなら場所を移動させる
 		var checkPos = pos + Vector2.up;
 		while (IsInBoard(checkPos))
@@ -228,8 +453,46 @@ public class Board : MonoBehaviour {
 			}
 			checkPos += Vector2.up;
 		}
+		*/
 
 		// 有効なピースがなければ新しく作る
 		CreatePiece(pos);
 	}
+		
+
+	private void PushToList(Piece obj, string color, string type) {
+		LastPiece = obj;
+		// 色半透明に変更
+		obj.SetPieceAlpha (0.5f);
+		removableBallList.Add(obj);
+        ColorList.Add(color);
+        TypeList.Add(type);
+	}
+
+	// 回転
+    private void RotationPiece(Vector2 Pos, Piece piece, Piece[,] originboard){
+        var worldPos = GetPieceRealWorldPos(Pos);
+        // 90°回転
+		Quaternion rot = Quaternion.AngleAxis(90.0f, Vector3.forward);
+        Quaternion rotback = Quaternion.AngleAxis(-45.0f, Vector3.forward);
+        // ピースの生成位置を求める
+        var createPos = rot * worldPos + (float)Screen.width / 2 * new Vector3(1, 0, 0);
+        createPos = rotback * createPos ;
+        var boardPos = new Vector2((createPos.x - (pieceWidth / 2)) / pieceWidth + 0.35f , (createPos.y - (pieceWidth / 2)) / pieceWidth + 0.35f);
+        if (boardPos.x < 0){
+            boardPos.x = 0.0f;
+        }
+        Debug.Log(Pos);
+        Debug.Log(boardPos);
+        var piece2 = originboard[(int)boardPos.x, (int)boardPos.y];
+        var p1 = piece.transform.position;
+        piece.transform.position = piece2.transform.position;
+        // 盤面にピースの情報をセットする
+        Debug.Log(piece2.transform.position);
+        Debug.Log(p1);
+        board[(int)boardPos.x, (int)boardPos.y] = piece;
+
+	}
+
+
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Manticore : MonoBehaviour {
 
 	//敵のMaxHP
-	public int maxHp = 3;
+	public int maxHp = 100;
 	//敵のHP
 	public int Hp;
 	//敵の攻撃力

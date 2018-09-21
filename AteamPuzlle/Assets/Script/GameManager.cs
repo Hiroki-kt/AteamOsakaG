@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.EventSystems;
 
 // ゲーム管理クラス
 public class GameManager : MonoBehaviour {
@@ -17,7 +18,11 @@ public class GameManager : MonoBehaviour {
 		MatchCheck,
 		DeletePiece,
 		FillPiece,
-		Attack,
+		Rotation,
+		Tracing,
+		TracingIdle,
+		TracingMove,
+        DeleteTracingPiece,
 	}
 
 	// serialize field.
@@ -28,9 +33,12 @@ public class GameManager : MonoBehaviour {
 	[SerializeField]
 	private Manticore manticore;
 
+
+
 	// private.
 	private GameState currentState;
 	private Piece selectedPiece;
+	private Piece firstPiece;
 
 	//-------------------------------------------------------
 	// MonoBehaviour Function
@@ -38,9 +46,10 @@ public class GameManager : MonoBehaviour {
 	// ゲームの初期化処理
 	private void Start()
 	{
-		board.InitializeBoard(6, 5);
+		board.InitializeBoard(6, 6);
 
 		currentState = GameState.Idle;
+
 	}
 
 	// ゲームのメインループ
@@ -63,8 +72,20 @@ public class GameManager : MonoBehaviour {
 		case GameState.FillPiece:
 			FillPiece();
 			break;
-		case GameState.Attack:
-			Attack ();
+		case GameState.Rotation:
+			Rotation ();
+			break;
+		case GameState.Tracing:
+			Tracing ();
+			break;
+		case GameState.TracingIdle:
+			TracingIdle ();
+			break;
+		case GameState.TracingMove:
+			TracingMove ();
+			break;
+		case GameState.DeleteTracingPiece:
+			DeleteTracingPiece ();
 			break;
 		default:
 			break;
@@ -76,8 +97,19 @@ public class GameManager : MonoBehaviour {
 	// Private Function
 	//-------------------------------------------------------
 	// プレイヤーの入力を検知し、ピースを選択状態にする
+	// a → 3マッチチェック（デバッグ用）
+	// t → なぞりモードい以降
 	private void Idle()
 	{
+		if (Input.GetKeyDown(KeyCode.A)) {
+			currentState = GameState.MatchCheck;
+		}
+		if (Input.GetKeyDown(KeyCode.T)) {
+			currentState = GameState.TracingIdle;
+		}
+        if(Input.GetKeyDown(KeyCode.R)){
+            currentState = GameState.Rotation;
+        }
 		if (Input.GetMouseButtonDown(0))
 		{
 			selectedPiece = board.GetNearestPiece(Input.mousePosition);
@@ -86,6 +118,7 @@ public class GameManager : MonoBehaviour {
 	}
 
 	// プレイヤーがピースを選択しているときの処理、入力終了を検知したら盤面のチェックの状態に移行する
+	// 一個ずつ動かす機構にする必要ある
 	private void PieceMove()
 	{
 		if (Input.GetMouseButton(0))
@@ -97,11 +130,11 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		else if (Input.GetMouseButtonUp(0)) {
-			currentState = GameState.MatchCheck;
+			currentState = GameState.Idle;
 		}
 	}
 
-	// 盤面上にマッチングしているピースがあるかどうかを判断する
+	// 盤面上にマッチングしているピースがあるかどうかを判断する（デバッグ用）
 	private void MatchCheck()
 	{
 		if (board.HasMatch())
@@ -110,28 +143,84 @@ public class GameManager : MonoBehaviour {
 		}
 		else
 		{
-			currentState = GameState.Attack;
+			currentState = GameState.Rotation;
 		}
 	}
 
 	// マッチングしているピースを削除する
-	private void DeletePiece()
+	// 倍率の計算
+	// スタートとゴールがつながっているのか条件分布
+	// 関数作成×2
+	private void DeleteTracingPiece()
 	{
-		board.DeleteMatchPiece();
+		board.OnDragEnd ();
+		board.GetCalculation ();
 		currentState = GameState.FillPiece;
 	}
 
+    // 降ってきたピースが全く同じだった場合、３マッチパズル
+    private void DeletePiece(){
+        board.DeleteMatchPiece();
+        currentState = GameState.FillPiece;
+    }
+
 	// 盤面上のかけている部分にピースを補充する
+	// 一旦、空いているところに単純に補充
 	private void FillPiece()
 	{
 		board.FillPiece();
 		currentState = GameState.MatchCheck;
 	}
+		
+	// 関数作成×2
+	// なぞり動作はじめ
+	private void Tracing(){
+		if (Input.GetMouseButton (0)) {
+			//firstPiece = board.GetNearestPiece(Input.mousePosition);
+			board.OnDragStart(selectedPiece);
+			currentState = GameState.TracingMove;
+		} 
+		else if (Input.GetMouseButtonUp (0)) {
+			currentState = GameState.TracingIdle;
+		}
+	}
 
-	//攻撃
-	private void Attack()
+    // なぞったピースの色半透明に
+    // ドラッグしたところで同じ色若しくは、同じタイプが一番新しいピースと被っていれば、つながる。
+	private void TracingMove(){
+		if (Input.GetMouseButton(0))
+		{
+			var piece = board.GetNearestPiece(Input.mousePosition);
+			if (piece != selectedPiece)
+			{
+				board.OnDragging(piece);
+			}
+		}
+		else if (Input.GetMouseButtonUp(0)) {
+			currentState = GameState.TracingIdle;
+		}
+	}
+
+	// なぞりモードのアイドリング
+	// g → なぞったピースを除去
+    // 初期化ボタン作成
+	private void TracingIdle()
 	{
-		manticore.GetDamage ();
+		if (Input.GetKeyDown(KeyCode.G)) {
+			currentState = GameState.DeleteTracingPiece;
+		}
+		if (Input.GetMouseButtonDown(0))
+		{
+			selectedPiece = board.GetNearestPiece(Input.mousePosition);
+			currentState = GameState.Tracing;
+		}
+	}
+
+
+	// 90°回転右回り
+	private void Rotation()
+	{
+		board.Rotation ();
 		currentState = GameState.Idle;
 	}
 }
