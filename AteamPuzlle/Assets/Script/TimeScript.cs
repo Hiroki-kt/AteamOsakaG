@@ -4,12 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TimeScript : MonoBehaviour {
-	[SerializeField]
-	private float time = 60;
-
+    public float time = GameManager.AllTime;
 	// Use this for initialization
 	void Start () {
-		//初期値60を表示
+		//初期値300を表示
 		GetComponent<Text>().text = ((int)time).ToString();
 	}
 	
@@ -20,6 +18,7 @@ public class TimeScript : MonoBehaviour {
 		//マイナスは表示しない
 		if(time < 0) time = 0;
 		GetComponent<Text> ().text = ((int)time).ToString ();
-		
+        //Debug.Log(time);
 	}
+
 }

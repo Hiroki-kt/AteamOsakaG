@@ -158,7 +158,7 @@ public class Board : MonoBehaviour {
             }
         }
         board = rotboard;
-        Debug.Log(board[0, 0].transform.position);
+        //Debug.Log(board[0, 0].transform.position);
 	}
 
 

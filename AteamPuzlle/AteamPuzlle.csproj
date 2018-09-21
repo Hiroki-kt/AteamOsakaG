@@ -279,8 +279,10 @@
     <Compile Include="Assets\Script\Red_of.cs" />
     <Compile Include="Assets\Script\Red_sk.cs" />
     <Compile Include="Assets\Script\Riset.cs" />
+    <Compile Include="Assets\Script\TimeOver.cs" />
     <Compile Include="Assets\Script\TimeScript.cs" />
     <Compile Include="Assets\Script\TitleGame.cs" />
+    <Compile Include="Assets\Script\TurnTime.cs" />
     <Compile Include="Assets\Script\Yellow_de.cs" />
     <Compile Include="Assets\Script\Yellow_of.cs" />
     <Compile Include="Assets\Script\Yellow_sk.cs" />
