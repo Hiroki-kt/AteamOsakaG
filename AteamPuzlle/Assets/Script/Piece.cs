@@ -8,6 +8,7 @@ public class Piece : MonoBehaviour
 	// public.
 	public bool deleteFlag;
 
+    /*
 	public GameObject Blue_de;
 	public GameObject Blue_of;
 	public GameObject Blue_sk;
@@ -23,7 +24,7 @@ public class Piece : MonoBehaviour
 	public GameObject Yellow_de;
 	public GameObject Yellow_of;
 	public GameObject Yellow_sk;
-
+    */
 
 	// private.
 	private Image thisImage;

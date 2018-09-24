@@ -14,3 +14,18 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Asset/ResultScene.unity
     guid: d461161588a1542f3886672990887d65
+  - enabled: 1
+    path: Assets/Asset/ResultSceneBud.unity
+    guid: 1f2a300af88ab49c4b17064de072bcfa
+  - enabled: 1
+    path: Assets/Asset/ResultSceneGood.unity
+    guid: 5d468c07a1da94ee4ab09b3618239495
+  - enabled: 1
+    path: Assets/Asset/ButtleScene.unity
+    guid: e82822764c92540aba1516514f8273c8
+  - enabled: 1
+    path: Assets/Asset/MenuScene.unity
+    guid: f93624cd274114fecbe105e13917bd93
+  - enabled: 1
+    path: Assets/Asset/BattleMenuScene.unity
+    guid: 0e385a1befb254cb89d91f11a4397ce5

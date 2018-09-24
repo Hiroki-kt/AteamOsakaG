@@ -4,17 +4,29 @@ using UnityEngine;
 
 public class Manticore : MonoBehaviour {
 
+    //-----------------
+    // public status
+    //-----------------
 	//敵のMaxHP
-	public int maxHp = 100;
+	public int maxHp = 8000;
 	//敵のHP
 	public int Hp;
 	//敵の攻撃力
-	public int ATK = 1;
-	//
-	private HPStatusUI hpStatusUI;
+	public int ATK = 30;
+    //防御力
+    public float Guard = 30;
+	//攻撃間隔
+    public float ATKInterval = 10;
+    //大攻撃間隔
+    public float BigATKInterval = 35;
 
 
-	// Use this for initialization
+	//-----------------
+    // private
+    //-----------------
+    private HPStatusUI hpStatusUI;
+
+    // Use this for initialization
 	void Start () {
 		Hp = maxHp; // 初期HPをmaxHPにする
 		hpStatusUI = GetComponent<HPStatusUI>();
@@ -33,7 +45,7 @@ public class Manticore : MonoBehaviour {
 		this.Hp = hp;
 
 		//
-		hpStatusUI.UpdateHPValue ();
+		//hpStatusUI.UpdateHPValue ();
 
 		if (hp <= 0) {
 			hpStatusUI.SetDisable ();

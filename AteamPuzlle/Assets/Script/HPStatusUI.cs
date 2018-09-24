@@ -6,18 +6,18 @@ using UnityEngine.UI;
 public class HPStatusUI : MonoBehaviour {
 
 	//敵のステータス
-	private Manticore manticore;
+	//private Manticore manticore;
 	//
 	private Slider hpSlider;
+    private float MaxHp;
+    public EnemyState enemy;
 
 	// Use this for initialization
 	void Start () {
-		//
-		manticore = transform.root.GetComponent<Manticore>();
-		//
 		hpSlider = transform.Find("HPBar").GetComponent<Slider>();
-		//
-		hpSlider.value = (float)manticore.GetMaxHp()/(float)manticore.GetMaxHp();
+        MaxHp = enemy.enemy.baseHp;
+		hpSlider.value = MaxHp/MaxHp;
+        Debug.Log(hpSlider.value);
 		
 	}
 	
@@ -29,7 +29,10 @@ public class HPStatusUI : MonoBehaviour {
 	public void SetDisable(){
 		gameObject.SetActive (false);
 	}
-	public void UpdateHPValue(){
-		hpSlider.value = (float)manticore.GetHp()/(float)manticore.GetMaxHp();
+
+	public void UpdateHPValue(float CurHP){
+        //Debug.Log("OK");
+		hpSlider.value = CurHP/MaxHp;
+        //Debug.Log(hpSlider.value);
 	}
 }

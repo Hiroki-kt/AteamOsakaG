@@ -260,32 +260,30 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Assets\Script\Attack.cs" />
-    <Compile Include="Assets\Script\Blue_de.cs" />
-    <Compile Include="Assets\Script\Blue_of.cs" />
-    <Compile Include="Assets\Script\Blue_sk.cs" />
+    <Compile Include="Assets\Script\BackMenu.cs" />
+    <Compile Include="Assets\Script\BaseCharaStatus.cs" />
+    <Compile Include="Assets\Script\BaseEnemyStatus.cs" />
+    <Compile Include="Assets\Script\BattleManager.cs" />
     <Compile Include="Assets\Script\Board.cs" />
+    <Compile Include="Assets\Script\CharaState.cs" />
+    <Compile Include="Assets\Script\EnemyState.cs" />
     <Compile Include="Assets\Script\GameManager.cs" />
-    <Compile Include="Assets\Script\Green_de.cs" />
-    <Compile Include="Assets\Script\Green_of.cs" />
-    <Compile Include="Assets\Script\Green_sk.cs" />
+    <Compile Include="Assets\Script\GotoBattle.cs" />
+    <Compile Include="Assets\Script\GotoBattleMenu.cs" />
     <Compile Include="Assets\Script\HPStatusUI.cs" />
+    <Compile Include="Assets\Script\HPStatusUIPlayer.cs" />
     <Compile Include="Assets\Script\Manticore.cs" />
+    <Compile Include="Assets\Script\No1.cs" />
+    <Compile Include="Assets\Script\No2.cs" />
+    <Compile Include="Assets\Script\No3.cs" />
+    <Compile Include="Assets\Script\No4.cs" />
     <Compile Include="Assets\Script\Piece.cs" />
     <Compile Include="Assets\Script\PieceKind.cs" />
-    <Compile Include="Assets\Script\Purple_de.cs" />
-    <Compile Include="Assets\Script\Purple_of.cs" />
-    <Compile Include="Assets\Script\Purple_sk.cs" />
-    <Compile Include="Assets\Script\Red_de.cs" />
-    <Compile Include="Assets\Script\Red_of.cs" />
-    <Compile Include="Assets\Script\Red_sk.cs" />
     <Compile Include="Assets\Script\Riset.cs" />
     <Compile Include="Assets\Script\TimeOver.cs" />
     <Compile Include="Assets\Script\TimeScript.cs" />
     <Compile Include="Assets\Script\TitleGame.cs" />
     <Compile Include="Assets\Script\TurnTime.cs" />
-    <Compile Include="Assets\Script\Yellow_de.cs" />
-    <Compile Include="Assets\Script\Yellow_of.cs" />
-    <Compile Include="Assets\Script\Yellow_sk.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="GenerateTargetFrameworkMonikerAttribute" />

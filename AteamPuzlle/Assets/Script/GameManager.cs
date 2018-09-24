@@ -62,6 +62,7 @@ public class GameManager : MonoBehaviour {
 
         GameTime = AllTime;
         turnTime = TurnTime;
+        SceneManager.LoadScene("ButtleScene",LoadSceneMode.Additive);
 
 	}
 

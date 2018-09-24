@@ -1,7 +1,4 @@
 sceneSetups:
-- path: Assets/Asset/ButtleScene.unity
+- path: Assets/Asset/BattleMenuScene.unity
   isLoaded: 1
   isActive: 1
-- path: Assets/Asset/GameScene.unity
-  isLoaded: 1
-  isActive: 0

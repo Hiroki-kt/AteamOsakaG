@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TimeScript : MonoBehaviour {
-    public float time = GameManager.AllTime;
+    public float time = GameManager.GameTime;
 	// Use this for initialization
 	void Start () {
 		//初期値300を表示
