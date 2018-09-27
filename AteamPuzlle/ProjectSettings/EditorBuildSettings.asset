@@ -29,3 +29,6 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Asset/BattleMenuScene.unity
     guid: 0e385a1befb254cb89d91f11a4397ce5
+  - enabled: 1
+    path: Assets/Asset/MypageScene.unity
+    guid: 2de9bdef19537456d8d70f22724bb234

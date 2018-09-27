@@ -4,7 +4,11 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Riset : MonoBehaviour {
-	public void Onclick(){
+    private void Start()
+    {
+
+    }
+    public void Onclick(){
 		SceneManager.LoadScene ("TitleScene");
 	}
 		

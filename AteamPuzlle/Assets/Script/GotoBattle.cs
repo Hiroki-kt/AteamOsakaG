@@ -7,7 +7,7 @@ public class GotoBattle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        SceneManager.LoadScene("MenuScene", LoadSceneMode.Additive);
 	}
 	
 	// Update is called once per frame

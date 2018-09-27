@@ -49,6 +49,8 @@ public class GameManager : MonoBehaviour {
     private int countMove;
     public static float GameTime;
     public static float turnTime;
+    public Button Trac;
+    public Button Pass;
 
 	//-------------------------------------------------------
 	// MonoBehaviour Function
@@ -59,6 +61,9 @@ public class GameManager : MonoBehaviour {
 		board.InitializeBoard(6, 6);
 
 		currentState = GameState.Idle;
+
+        Trac = GetComponent<Button>();
+        //Trac.onClick.AddListener(TracClick());
 
         GameTime = AllTime;
         turnTime = TurnTime;
@@ -147,12 +152,15 @@ public class GameManager : MonoBehaviour {
 		if (Input.GetKeyDown(KeyCode.A)) {
 			currentState = GameState.MatchCheck;
 		}
+
 		if (Input.GetKeyDown(KeyCode.T)) {
 			currentState = GameState.TracingIdle;
 		}
+
         if(Input.GetKeyDown(KeyCode.R)){
             currentState = GameState.Rotation;
         }
+
 		if (Input.GetMouseButtonDown(0))
 		{
 			selectedPiece = board.GetNearestPiece(Input.mousePosition);
@@ -256,7 +264,7 @@ public class GameManager : MonoBehaviour {
 			}
 		}
 		else if (Input.GetMouseButtonUp(0)) {
-			currentState = GameState.TracingIdle;
+			currentState = GameState.DeleteTracingPiece;
 		}
 	}
 
@@ -288,5 +296,15 @@ public class GameManager : MonoBehaviour {
         countRotaion += 1.0f;
         turnTime = TurnTime; // 制限時間初期化
         currentState = GameState.Idle;
+    }
+
+    public void TracClick(){
+        Debug.Log("trac");
+        currentState = GameState.TracingIdle;
+    }
+
+    public void PassClick(){
+        Debug.Log("pass");
+        currentState = GameState.Rotation;
     }
 }

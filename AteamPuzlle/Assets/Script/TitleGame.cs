@@ -15,7 +15,7 @@ public class TitleGame : MonoBehaviour {
     {
 		if(Input.GetMouseButton(0))
         {
-			SceneManager.LoadScene ("MenuScene");
+			SceneManager.LoadScene ("MypageScene");
 		}
 		
 	}

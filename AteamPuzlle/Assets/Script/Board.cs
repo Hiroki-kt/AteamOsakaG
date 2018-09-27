@@ -37,10 +37,41 @@ public class Board : MonoBehaviour {
 	// 特定の幅と高さに盤面を初期化する
 	public void InitializeBoard(int boardWidth, int boardHeight)
 	{
-		width = boardWidth ;
-		height = boardHeight;
+        // ピースの大きさを調整します
+        width = boardWidth;
+        height = boardHeight;
 
-		pieceWidth = Screen.width / (boardWidth + 2);
+        pieceWidth = Screen.width / (boardWidth + 2);
+
+        // ボード調整ーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+        var target = GameObject.Find("Board").transform;
+        var canvas = GameObject.Find("Canvas").transform;
+
+        // ボードの大きさを調整します→回転が簡単になるように
+        // 現在使ってない
+        var boardsize = target.GetComponent<RectTransform>().sizeDelta;
+        boardsize.x = Screen.width + 70;
+        boardsize.y = Screen.width + 70;
+        target.GetComponent<RectTransform>().sizeDelta = boardsize;
+
+        // ボードの位置を調整
+        var createPos = GetPieceRealWorldPos(new Vector2(0, 0));
+        var createPos2 = GetPieceRealWorldPos(new Vector2(5, 0));
+
+        var canvaspos = canvas.transform.position;
+        var boardpos = target.transform.localPosition;
+        //Debug.Log(boardpos);
+        boardpos.x = canvaspos.x - createPos.x;
+        boardpos.y = (canvaspos.y - createPos2.y) * -1;
+        //Debug.Log(canvaspos - board[5, 0].transform.position);
+        target.transform.localPosition = boardpos;
+        Debug.Log(canvaspos - createPos);
+        Debug.Log(canvaspos - createPos2);
+        //Debug.Log(boardpos);
+        //Debug.Log(canvaspos);
+        Debug.Log(createPos2);
+        //Debug.Log(board[5, 5].transform.position.y);
+
 
 		board = new Piece[width, height];
 
@@ -51,10 +82,13 @@ public class Board : MonoBehaviour {
 				CreatePiece(new Vector2(i, j));
 			}
 		}
-	}
+        Debug.Log(board[5, 0].transform.position);
 
-	// 入力されたクリック(タップ)位置から最も近いピースの位置を返す
-	public Piece GetNearestPiece(Vector3 input)
+
+    }
+
+    // 入力されたクリック(タップ)位置から最も近いピースの位置を返す
+    public Piece GetNearestPiece(Vector3 input)
 	{
 		var minDist = float.MaxValue;
 		Piece nearestPiece = null;
@@ -245,7 +279,7 @@ public class Board : MonoBehaviour {
 				if (LastPiece != piece) {
 					//直前にリストにいれたのと異なるボールのとき
 					var dist = Vector3.Distance (LastPiece.transform.position, piece.transform.position); //直前のボールと現在のボールの距離を計算
-                    if (dist <= 30) {
+                    if (dist <= (float)pieceWidth * 1.2f) {
 						//ボール間の距離が一定値以下のとき
 						PushToList (piece, piececolor, piecetype); //消去するリストにボールを追加
                         currentType = piecetype;
@@ -310,8 +344,11 @@ public class Board : MonoBehaviour {
 		// ピースを生成、ボードの子オブジェクトにする
 		var piece = Instantiate(piecePrefab, createPos, Quaternion.identity).GetComponent<Piece>();
 		piece.transform.SetParent(transform);
-		piece.SetSize(pieceWidth);
+        //Debug.Log(piece.transform.position);
+        var imagesize = (float)pieceWidth * 1.2f;
+		piece.SetSize((int)imagesize);
 		piece.SetKind(kind);
+        //Debug.Log(piece.transform.position);
 
 		// 盤面にピースの情報をセットする
 		board[(int)position.x, (int)position.y] = piece;
