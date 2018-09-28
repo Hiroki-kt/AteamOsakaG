@@ -41,22 +41,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   deleteFlag: 0
-  PieceList: []
-  Blue_de: {fileID: 1357680356430424, guid: 8d06334627e0849e796cf3aae800dacc, type: 2}
-  Blue_of: {fileID: 1014908195218802, guid: fab60b0f5ccb643ccac9764c9542d75f, type: 2}
-  Blue_sk: {fileID: 1756040858413402, guid: b17bf35768ff74f1d827e2aba803ba5f, type: 2}
-  Green_de: {fileID: 1009998078806220, guid: 7a33c04e4e9514954afb0266cafd4a7f, type: 2}
-  Green_of: {fileID: 1783941048578444, guid: 025282f09baef47edab66a04cd778214, type: 2}
-  Green_sk: {fileID: 1785238871866230, guid: a71bf9d6aae0c4b318de8d831e5dce07, type: 2}
-  Purple_de: {fileID: 1394377656655964, guid: 921e2f8abc49841f5868d5e4fe1f3963, type: 2}
-  Purple_of: {fileID: 1500451330191326, guid: 2b1682db8fede4bb29066932e2715243, type: 2}
-  Purple_sk: {fileID: 1164974283539782, guid: 4f14f5d4e2cda48e3b55aa842a1f37ca, type: 2}
-  Red_de: {fileID: 1963114679468702, guid: 73b9e1077aa14445685cfcb75d132338, type: 2}
-  Red_of: {fileID: 1595896919851126, guid: 10330d3f19fc44c2aa6730cdf840712b, type: 2}
-  Red_sk: {fileID: 1544929427082688, guid: e02f39d6c05ac4c3b9ad1f28612ea985, type: 2}
-  Yellow_de: {fileID: 1365046111596914, guid: b89ee06a77865405d9f2c4e5a4d7867f, type: 2}
-  Yellow_of: {fileID: 1320798403811854, guid: 8cc7aca00bdea40faa439a9a0a26d960, type: 2}
-  Yellow_sk: {fileID: 1991488297849448, guid: d55355e4d22c64f57bd0b311fc0daa26, type: 2}
 --- !u!114 &114606153381467486
 MonoBehaviour:
   m_ObjectHideFlags: 1

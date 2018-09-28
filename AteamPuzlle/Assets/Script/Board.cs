@@ -10,9 +10,11 @@ public class Board : MonoBehaviour {
 	// serialize field.
 	[SerializeField]
 	private GameObject piecePrefab;
+    [SerializeField]
+    private GameObject lightPrefab;
 
-	// private.
-	private Piece[,] board;
+    // private.
+    private Piece[,] board;
     private Piece[,] rotboard;
 	private int width;
 	private int height;
@@ -279,7 +281,7 @@ public class Board : MonoBehaviour {
 
 		
 	//---------------------------------------------------------
-	// Publi  なぞり動作
+	// Public  なぞり動作
 	//---------------------------------------------------------
 
 	public void OnDragStart(Piece piece) {
@@ -310,6 +312,7 @@ public class Board : MonoBehaviour {
                     if (dist <= (float)pieceWidth * 1.2f) {
 						//ボール間の距離が一定値以下のとき
 						PushToList (piece, piececolor, piecetype); //消去するリストにボールを追加
+                        CreateLight(piece);
                         currentType = piecetype;
                         currentColor = piececolor;
 					}
@@ -386,6 +389,14 @@ public class Board : MonoBehaviour {
         //Debug.Log(piece.transform.position);
 	
 	}
+    private void CreateLight(Piece piece){
+        // ピースの生成位置を求める
+        var lightpos = piece.transform.position;
+
+        // ピースを作成
+        //var light = Instantiate(lightPrefab, lightpos, Quaternion.identity).GetComponent<LensFlare>();
+        Instantiate(lightPrefab, lightpos, Quaternion.identity);
+    }
 
 	// 盤面上の位置からピースオブジェクトのワールド座標での位置を返す
 	private Vector3 GetPieceWorldPos(Vector2 boardPos)
