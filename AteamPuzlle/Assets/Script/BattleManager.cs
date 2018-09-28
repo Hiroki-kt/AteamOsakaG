@@ -59,7 +59,7 @@ public class BattleManager : MonoBehaviour {
     // Use this for initialization
     void Start () 
     {
-        Debug.Log("BattleStart");
+        //Debug.Log("BattleStart");
         // ステータス初期化
         EnemyHp = enemy.enemy.baseHp;
         PlayerHp = chara.chara.baseHp;
@@ -197,20 +197,25 @@ public class BattleManager : MonoBehaviour {
         SceneManager.LoadScene("ResultSceneBud");
     }
 
+    // 変更する場所------------------------------
+    // 此処から先がそれぞれのキャラ（敵も含む）の攻撃 -----------------
+    // No1
     private void PlayerAttack()
     {
         var Damage = PlayerATK - EnemyDEF;
         EnemyHp -= Damage;
-        Debug.Log("Player attack");
+        //Debug.Log("Player attack");
         //Debug.Log(EnemyHp);
     }
     
     private void PlayerSkill(){}
+
+    // 敵
     private void EnemyAttack()
     {
         var Damage = EnemyATK - PlayerDEF;
         PlayerHp -= Damage;
-        Debug.Log("Enemy attack");
+        //Debug.Log("Enemy attack");
         //Debug.Log(PlayerHp);
         //Debug.Log(Damage);
     }
@@ -218,31 +223,34 @@ public class BattleManager : MonoBehaviour {
     {
         var Damage = 1.5f * EnemyATK - PlayerDEF;
         PlayerHp -= Damage;
-        Debug.Log("Enemy Big attack");
-       //Debug.Log(PlayerHp);
+        //Debug.Log("Enemy Big attack");
+        //Debug.Log(PlayerHp);
         //Debug.Log(Damage);
     }
 
+    // NO2
     private void No2Attack()
     {
         var Damage = No2ATK - EnemyDEF;
         EnemyHp -= Damage;
-        Debug.Log("No2 attack");
+        //Debug.Log("No2 attack");
         //Debug.Log(EnemyHp);
     }
 
+    //No3
     private void No3Attack()
     {
         var Damage = No3ATK - EnemyDEF;
         EnemyHp -= Damage;
-        Debug.Log("No3 attack");
+        //Debug.Log("No3 attack");
         //Debug.Log(EnemyHp);
     }
+    //No4
     private void No4Attack()
     {
         var Damage = No4ATK - EnemyDEF;
         EnemyHp -= Damage;
-        Debug.Log("No4 attack");
+        //Debug.Log("No4 attack");
         //Debug.Log(EnemyHp);
     }
 }

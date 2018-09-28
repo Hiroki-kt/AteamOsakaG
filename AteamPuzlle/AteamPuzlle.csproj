@@ -282,6 +282,7 @@
     <Compile Include="Assets\Script\PieceKind.cs" />
     <Compile Include="Assets\Script\result.cs" />
     <Compile Include="Assets\Script\Riset.cs" />
+    <Compile Include="Assets\Script\rottest.cs" />
     <Compile Include="Assets\Script\TimeOver.cs" />
     <Compile Include="Assets\Script\TimeScript.cs" />
     <Compile Include="Assets\Script\TitleGame.cs" />

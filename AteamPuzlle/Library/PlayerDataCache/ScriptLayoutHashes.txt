@@ -1,6 +1,6 @@
 iOS
 PlayerPath?
-/Users/hiroki-kt/Desktop/Ateamver02
+/Users/hiroki-kt/Desktop/Ateamver03
 SceneListBegin?
 Assets/Asset/TitleScene.unity
 Assets/Asset/GameScene.unity
@@ -147,7 +147,7 @@ e9bdabf9265d758d56f01bb188916fa8 UnityEngine.Networking.dll:UnityEngine.Networki
 3f32f08a64daf40b09ed864d96fe3840 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransform
 73843688b51256aed059f049c540bca8 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformChild
 528ea1fd7c01796fc60c4e2f172ea229 UnityEngine.Networking.dll:UnityEngine.Networking.NetworkTransformVisualizer
-ca3e1e06a08531bdb0273dd6f1b85ea0 Assembly-CSharp.dll:.GameManager
+36047e68de34dfe0b6f670d790ba6b98 Assembly-CSharp.dll:.GameManager
 c921c3f828e7ace34fe696b0fbbfea4d Assembly-CSharp.dll:.No3
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.BackMenu
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.GotoBattle
@@ -173,7 +173,8 @@ d5be1ca94278aa7358c511834dede500 Assembly-CSharp.dll:.TimeScript
 9c893ef32f399fe1b2daac317cab6d88 Assembly-CSharp.dll:.Manticore
 41354122da55648ccf71b9741730464a Assembly-CSharp.dll:.BattleManager
 c921c3f828e7ace34fe696b0fbbfea4d Assembly-CSharp.dll:.No4
-037c43c1c4f4a8d87595624486f800fc Assembly-CSharp.dll:.HPStatusUI
-c08bd2adde564c32cf968f8ce602a1de Assembly-CSharp.dll:.Board
-c921c3f828e7ace34fe696b0fbbfea4d Assembly-CSharp.dll:.No2
 05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.button_click
+037c43c1c4f4a8d87595624486f800fc Assembly-CSharp.dll:.HPStatusUI
+8f0092ad2fe022b2c0a4efc88af4134a Assembly-CSharp.dll:.Board
+c921c3f828e7ace34fe696b0fbbfea4d Assembly-CSharp.dll:.No2
+05524b8f659e7bfe5756d1335fec24ba Assembly-CSharp.dll:.rottest

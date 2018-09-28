@@ -10,8 +10,6 @@ public class Board : MonoBehaviour {
 	// serialize field.
 	[SerializeField]
 	private GameObject piecePrefab;
-	[SerializeField]
-	private GameObject Red_of;
 
 	// private.
 	private Piece[,] board;
@@ -30,12 +28,15 @@ public class Board : MonoBehaviour {
 	private string currentColor;
 	private Piece firstPiece;
     private string TF;
+    private Vector2[] directions = new Vector2[] { Vector2.up, Vector2.down, Vector2.right, Vector2.left };
 
-	//-------------------------------------------------------
-	// Public Function
-	//-------------------------------------------------------
-	// 特定の幅と高さに盤面を初期化する
-	public void InitializeBoard(int boardWidth, int boardHeight)
+
+
+    //-------------------------------------------------------
+    // Public Function
+    //-------------------------------------------------------
+    // 特定の幅と高さに盤面を初期化する
+    public void InitializeBoard(int boardWidth, int boardHeight)
 	{
         // ピースの大きさを調整します
         width = boardWidth;
@@ -65,11 +66,11 @@ public class Board : MonoBehaviour {
         boardpos.y = (canvaspos.y - createPos2.y) * -1;
         //Debug.Log(canvaspos - board[5, 0].transform.position);
         target.transform.localPosition = boardpos;
-        Debug.Log(canvaspos - createPos);
-        Debug.Log(canvaspos - createPos2);
+        //Debug.Log(canvaspos - createPos);
+        //Debug.Log(canvaspos - createPos2);
         //Debug.Log(boardpos);
         //Debug.Log(canvaspos);
-        Debug.Log(createPos2);
+        //Debug.Log(createPos2);
         //Debug.Log(board[5, 5].transform.position.y);
 
 
@@ -82,7 +83,7 @@ public class Board : MonoBehaviour {
 				CreatePiece(new Vector2(i, j));
 			}
 		}
-        Debug.Log(board[5, 0].transform.position);
+        //Debug.Log(board[5, 0].transform.position);
 
 
     }
@@ -136,9 +137,11 @@ public class Board : MonoBehaviour {
 	}
 
 	// マッチングしているピースを削除する
-	public void DeleteMatchPiece()
+	public IEnumerator DeleteMatchPiece(Action endCallBack)
 	{
+        /*
 		// マッチしているピースの削除フラグを立てる
+        // マッチしたもの一気に消す
 		foreach (var piece in board)
 		{
 			piece.deleteFlag = IsMatchPiece(piece);
@@ -151,11 +154,27 @@ public class Board : MonoBehaviour {
 			{
 				Destroy(piece.gameObject);
 			}
-		}
-	}
+        }
+        yield return new WaitForSeconds(1f);
+        endCallBack();
+        */
+
+        // マッチしたものを順番に消す。（パズドラ風）
+        foreach (var piece in board)
+        {
+            if (piece != null && IsMatchPiece(piece))
+            {
+                var pos = GetPieceBoardPos(piece);
+                DestroyMatchPiece(pos, piece.GetKind());
+                yield return new WaitForSeconds(0.5f);
+            }
+        }
+
+        endCallBack();
+    }
 
 	// ピースが消えている場所を詰めて、新しいピースを生成する
-	public void FillPiece()
+	public IEnumerator FillPiece(Action endCallBack)
 	{
 		for (int i = 0; i < width; i++)
 		{
@@ -164,23 +183,29 @@ public class Board : MonoBehaviour {
 				FillPiece(new Vector2(i, j));
 			}
 		}
+        yield return new WaitForSeconds(1f);
+        endCallBack();
 	}
 
 	// 回転
     // 初期座標の調整が本来は必要
-    public void Rotation(float rot){
+    public IEnumerator Rotation(float rot, Action endCallBack){
         
         // 回転します。ボードごと回転。
-        float speed = 1f;
+        float speed =1f;
         float step = speed * Time.deltaTime;
         var target = GameObject.Find("Board").transform;
 
+        // /*
         while (transform.rotation != Quaternion.Euler(0,0,rot)){
             // 指定した方向にゆっくり回転する場合
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
-              
+            //Debug.Log(transform.rotation);
+            yield return new WaitForSeconds(0.0003f);
         }
+        // */
 
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
         // 回転後の座標の変換
         rotboard = new Piece[width, height];
         for (int i = 0; i < width; i++)
@@ -193,6 +218,7 @@ public class Board : MonoBehaviour {
         }
         board = rotboard;
         //Debug.Log(board[0, 0].transform.position);
+        endCallBack();
 	}
 
 
@@ -225,29 +251,31 @@ public class Board : MonoBehaviour {
                 ColorTypeList.Add(TypeList[ColorIdList[i]]);
             }
             //GetCalulationOff();
-            Debug.Log("Offence");
-            Debug.Log(GetCalulationOff());
+            //Debug.Log("Offence");
+            //Debug.Log(GetCalulationOff());
             //GetCalulationDef();
-            Debug.Log("Defence");
-            Debug.Log(GetCalulationDef());
+            //Debug.Log("Defence");
+            //Debug.Log(GetCalulationDef());
             //GetCalulationSki();
-            Debug.Log("Skill");
-            Debug.Log(GetCalulationSki());
+            //Debug.Log("Skill");
+            //Debug.Log(GetCalulationSki());
         }else{
             //GetCalulationOffNotColor();
-            Debug.Log("Offence");
-            Debug.Log(GetCalulationOffNotColor());
+            //Debug.Log("Offence");
+            //Debug.Log(GetCalulationOffNotColor());
             //GetCalulationDefNotColor();
-            Debug.Log("Defence");
-            Debug.Log(GetCalulationDefNotColor());
+            //Debug.Log("Defence");
+            //Debug.Log(GetCalulationDefNotColor());
             //GetCalulationSkiNotColor();
-            Debug.Log("Skill");
-            Debug.Log(GetCalulationSkiNotColor());
+            //Debug.Log("Skill");
+            //Debug.Log(GetCalulationSkiNotColor());
         }
 
 
 
     }
+
+
 
 		
 	//---------------------------------------------------------
@@ -291,7 +319,7 @@ public class Board : MonoBehaviour {
 	}
 
     // スタートとゴールの値があったら、消すそれ以外は戻す
-	public void OnDragEnd() {
+	public IEnumerator OnDragEnd(Action endCallBack) {
 		if (firstPiece != null) {
 			//1つ以上のボールをなぞっているとき
 			var length = removableBallList.Count;
@@ -301,6 +329,9 @@ public class Board : MonoBehaviour {
 			
 			firstPiece = null; //変数の初期化
 		}
+
+        yield return new WaitForSeconds(1f);
+        endCallBack();
 	}
 
     public void OnDragEndNG()
@@ -447,7 +478,7 @@ public class Board : MonoBehaviour {
 			return;
 		}
 
-		/*
+		
 		// 実際はこの部分もしっかり考える必要有り。一旦パス
 		// 対象のピースより上方向に有効なピースがあるかを確認、あるなら場所を移動させる
 		var checkPos = pos + Vector2.up;
@@ -456,14 +487,14 @@ public class Board : MonoBehaviour {
 			var checkPiece = board[(int)checkPos.x, (int)checkPos.y];
 			if (checkPiece != null && !checkPiece.deleteFlag)
 			{
-				checkPiece.transform.position = GetPieceWorldPos(pos);
+				checkPiece.transform.position = GetPieceRealWorldPos(pos);
 				board[(int)pos.x, (int)pos.y] = checkPiece;
 				board[(int)checkPos.x, (int)checkPos.y] = null;
 				return;
 			}
 			checkPos += Vector2.up;
 		}
-		*/
+		
 
 		// 有効なピースがなければ新しく作る
 		CreatePiece(pos);
@@ -539,5 +570,37 @@ public class Board : MonoBehaviour {
         return TypeList.Count(x => x == "Skill");
     }
 
+    // 特定のピースがマッチしている場合、ほかのマッチしたピースとともに削除する
+    private void DestroyMatchPiece(Vector2 pos, PieceKind kind)
+    {
+        // ピースの場所が盤面以外だったら何もしない
+        if (!IsInBoard(pos))
+        {
+            return;
+        }
+
+        // ピースが無効であったり削除フラグが立っていたりそもそも、種別がちがうならば何もしない
+        var piece = board[(int)pos.x, (int)pos.y];
+        if (piece == null || piece.deleteFlag || piece.GetKind() != kind)
+        {
+            return;
+        }
+
+        // ピースが同じ種類でもマッチングしてなければ何もしない
+        if (!IsMatchPiece(piece))
+        {
+            return;
+        }
+
+        // 削除フラグをたてて、周り４方のピースを判定する
+        piece.deleteFlag = true;
+        foreach (var dir in directions)
+        {
+            DestroyMatchPiece(pos + dir, kind);
+        }
+
+        // ピースを削除する
+        Destroy(piece.gameObject);
+    }
 
 }

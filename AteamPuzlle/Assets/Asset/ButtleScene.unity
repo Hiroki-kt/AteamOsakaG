@@ -387,9 +387,9 @@ MonoBehaviour:
     curATK: 0
     baseDEF: 100
     curDEF: 0
-    baseSKL: 35
+    baseSKL: 35.1
     curSKL: 0
-    baseSPD: 10
+    baseSPD: 10.1
     curSPD: 0
   hPStatusUI: {fileID: 1987284252}
 --- !u!1 &202056111

@@ -6,70 +6,79 @@ using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
 
 // ゲーム管理クラス
-public class GameManager : MonoBehaviour {
+public class GameManager : MonoBehaviour
+{
 
-	// const.
-	public const int MachingCount = 3;
+    // const.
+    public const int MachingCount = 3;
 
     // public
     public static float AllTime = 300;
     public static float TurnTime = 50;
 
-	// enum.
-	private enum GameState
-	{
-		Idle,
-		PieceMove,
-		MatchCheck,
-		DeletePiece,
-		FillPiece,
-		Rotation,
-		Tracing,
-		TracingIdle,
-		TracingMove,
+    // enum.
+    private enum GameState
+    {
+        Idle,
+        PieceMove,
+        MatchCheck,
+        DeletePiece,
+        FillPiece,
+        Rotation,
+        Tracing,
+        TracingIdle,
+        TracingMove,
         DeleteTracingPiece,
         TimeOver,
-	}
+        Wait,
+    }
 
-	// serialize field.
-	[SerializeField]
-	private Board board;
-	[SerializeField]
-	private Text stateText;
-	[SerializeField]
-	private Manticore manticore;
+    // serialize field.
+    [SerializeField]
+    private Board board;
+    [SerializeField]
+    private Text stateText;
+    //[SerializeField]
+    //private Manticore manticore;
 
 
 
-	// private.
-	private GameState currentState;
-	private Piece selectedPiece;
-	private Piece firstPiece;
+    // private.
+    private GameState currentState;
+    private Piece selectedPiece;
+    //private Piece firstPiece;
     private float countRotaion = 1.0f;
     private int countMove;
     public static float GameTime;
     public static float turnTime;
     public Button Trac;
     public Button Pass;
+    private const float SelectedPieceAlpha = 0.5f;
+    private GameObject selectedPieceObject;
 
-	//-------------------------------------------------------
-	// MonoBehaviour Function
-	//-------------------------------------------------------
-	// ゲームの初期化処理
-	private void Start()
-	{
-		board.InitializeBoard(6, 6);
+    //float step;
+    //float speed = 1f;
+    //Transform target;
 
-		currentState = GameState.Idle;
+    //-------------------------------------------------------
+    // MonoBehaviour Function
+    //-------------------------------------------------------
+    // ゲームの初期化処理
+    private void Start()
+    {
+        board.InitializeBoard(6, 6);
+
+        currentState = GameState.Idle;
 
         Trac = GetComponent<Button>();
         //Trac.onClick.AddListener(TracClick());
 
         GameTime = AllTime;
         turnTime = TurnTime;
-        SceneManager.LoadScene("ButtleScene",LoadSceneMode.Additive);
+        SceneManager.LoadScene("ButtleScene", LoadSceneMode.Additive);
+        //target = GameObject.Find("Board").transform;
 
-	}
+    }
 
     // ゲームのメインループ
     private void Update()
@@ -83,7 +92,7 @@ public class GameManager : MonoBehaviour {
 
         if (GameTime > 0)
         {
-            if(turnTime > 0)
+            if (turnTime > 0)
             {
                 // ボード画面
                 switch (currentState)
@@ -104,6 +113,9 @@ public class GameManager : MonoBehaviour {
                         FillPiece();
                         break;
                     case GameState.Rotation:
+                        //step = speed * Time.deltaTime;
+                        //Debug.Log(step);
+                        //target.transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, 90f), step);
                         Rotation();
                         break;
                     case GameState.Tracing:
@@ -118,6 +130,8 @@ public class GameManager : MonoBehaviour {
                     case GameState.DeleteTracingPiece:
                         DeleteTracingPiece();
                         break;
+                    case GameState.Wait:
+                        break;
                     default:
                         break;
                 }
@@ -125,6 +139,9 @@ public class GameManager : MonoBehaviour {
             }
             else
             {
+                if(currentState == GameState.TracingMove){
+                    DeleteTracingPiece();
+                }
                 Rotation();
                 turnTime = TurnTime; //制限時間初期化
             }
@@ -134,8 +151,8 @@ public class GameManager : MonoBehaviour {
         {
             SceneManager.LoadScene("ResultScene");
         }
-  
-	}
+
+    }
 
     //-----------------------------------------
     // Public
@@ -148,143 +165,176 @@ public class GameManager : MonoBehaviour {
     // a → 3マッチチェック（デバッグ用）
     // t → なぞりモードい以降
     private void Idle()
-	{
-		if (Input.GetKeyDown(KeyCode.A)) {
-			currentState = GameState.MatchCheck;
-		}
+    {
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            currentState = GameState.MatchCheck;
+        }
 
-		if (Input.GetKeyDown(KeyCode.T)) {
-			currentState = GameState.TracingIdle;
-		}
+        if (Input.GetKeyDown(KeyCode.T))
+        {
+            currentState = GameState.TracingIdle;
+        }
 
-        if(Input.GetKeyDown(KeyCode.R)){
+        if (Input.GetKeyDown(KeyCode.R))
+        {
             currentState = GameState.Rotation;
         }
 
-		if (Input.GetMouseButtonDown(0))
-		{
-			selectedPiece = board.GetNearestPiece(Input.mousePosition);
+        if (Input.GetMouseButtonDown(0))
+        {
+
+            selectedPiece = board.GetNearestPiece(Input.mousePosition);
+            //selectedPiece.SetPieceAlpha(SelectedPieceAlpha);
             countMove = 1;
 			currentState = GameState.PieceMove;
 
-		}
-	}
+            //SelectPiece();
+        }
+    }
 
-	// プレイヤーがピースを選択しているときの処理、入力終了を検知したら盤面のチェックの状態に移行する
-	// 一個ずつ動かす機構にする必要ある
-	private void PieceMove()
-	{
-		if (Input.GetMouseButton(0))
-		{
-			var piece = board.GetNearestPiece(Input.mousePosition);
-			if (piece != selectedPiece)
-			{
-                if(countMove < 2){
+    // プレイヤーがピースを選択しているときの処理、入力終了を検知したら盤面のチェックの状態に移行する
+    // 一個ずつ動かす機構にする必要ある
+    private void PieceMove()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            var piece = board.GetNearestPiece(Input.mousePosition);
+            if (piece != selectedPiece)
+            {
+                if (countMove < 2)
+                {
                     board.SwitchPiece(selectedPiece, piece);
                     countMove += 1;
                     //Debug.Log("OK");
+                    //selectedPieceObject.transform.position = Input.mousePosition + Vector3.up * 10;
                 }
-                else{
+                else
+                {
+                    selectedPiece.SetPieceAlpha(1f);
+                    //Destroy(selectedPieceObject);
                     currentState = GameState.Idle;
                 }
-			}
+            }
 
-		}
-		else if (Input.GetMouseButtonUp(0)) {
-			currentState = GameState.Idle;
-		}
-	}
-
-	// 盤面上にマッチングしているピースがあるかどうかを判断する（デバッグ用）
-	private void MatchCheck()
-	{
-		if (board.HasMatch())
-		{
-			currentState = GameState.DeletePiece;
-		}
-		else
-		{
-			currentState = GameState.Rotation;
-		}
-	}
-
-	// マッチングしているピースを削除する
-	// 倍率の計算
-	// スタートとゴールがつながっているのか条件分布
-	// 関数作成×2
-	private void DeleteTracingPiece()
-	{
-        if(board.GetStartGoal() == "True"){
-            board.OnDragEnd();
-            board.GetCalculation();
-            currentState = GameState.FillPiece;
         }
-        else if(board.GetStartGoal() == "False"){
+        else if (Input.GetMouseButtonUp(0))
+        {
+            selectedPiece.SetPieceAlpha(1f);
+            //Destroy(selectedPieceObject);
+            currentState = GameState.Idle;
+        }
+    }
+
+    // 盤面上にマッチングしているピースがあるかどうかを判断する（デバッグ用）
+    private void MatchCheck()
+    {
+        if (board.HasMatch())
+        {
+            currentState = GameState.DeletePiece;
+        }
+        else
+        {
+            Debug.Log("rot");
+            currentState = GameState.Rotation;
+        }
+    }
+
+    // マッチングしているピースを削除する
+    // 倍率の計算
+    // スタートとゴールがつながっているのか条件分布
+    // 関数作成×2
+    private void DeleteTracingPiece()
+    {
+        currentState = GameState.Wait;
+        if (board.GetStartGoal() == "True")
+        {
+            board.GetCalculation();
+            StartCoroutine(board.OnDragEnd(() => currentState = GameState.FillPiece));
+            //board.OnDragEnd();
+            //currentState = GameState.FillPiece;
+        }
+        else if (board.GetStartGoal() == "False")
+        {
             board.OnDragEndNG();
             currentState = GameState.TracingIdle;
         }
-	}
-
-    // 降ってきたピースが全く同じだった場合、３マッチパズル
-    private void DeletePiece(){
-        board.DeleteMatchPiece();
-        currentState = GameState.FillPiece;
     }
 
-	// 盤面上のかけている部分にピースを補充する
-	// 一旦、空いているところに単純に補充
-	private void FillPiece()
-	{
-		board.FillPiece();
-		currentState = GameState.MatchCheck;
-	}
-		
-	// 関数作成×2
-	// なぞり動作はじめ
-	private void Tracing(){
-		if (Input.GetMouseButton (0)) {
-			//firstPiece = board.GetNearestPiece(Input.mousePosition);
-			board.OnDragStart(selectedPiece);
-			currentState = GameState.TracingMove;
-		} 
-		else if (Input.GetMouseButtonUp (0)) {
-			currentState = GameState.TracingIdle;
-		}
-	}
+    // 降ってきたピースが全く同じだった場合、３マッチパズル
+    private void DeletePiece()
+    {
+        currentState = GameState.Wait;
+        //board.DeleteMatchPiece();
+        StartCoroutine(board.DeleteMatchPiece(() => currentState = GameState.FillPiece));
+        //currentState = GameState.FillPiece;
+    }
+
+    // 盤面上のかけている部分にピースを補充する
+    // 一旦、空いているところに単純に補充
+    private void FillPiece()
+    {
+        currentState = GameState.Wait;
+        //board.FillPiece();
+        //Debug.Log("fill");
+        StartCoroutine(board.FillPiece(() => currentState = GameState.MatchCheck));
+        //currentState = GameState.MatchCheck;
+    }
+
+    // 関数作成×2
+    // なぞり動作はじめ
+    private void Tracing()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            //firstPiece = board.GetNearestPiece(Input.mousePosition);
+            board.OnDragStart(selectedPiece);
+            currentState = GameState.TracingMove;
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
+            currentState = GameState.TracingIdle;
+        }
+    }
 
     // なぞったピースの色半透明に
     // ドラッグしたところで同じ色若しくは、同じタイプが一番新しいピースと被っていれば、つながる。
-	private void TracingMove(){
-		if (Input.GetMouseButton(0))
-		{
-			var piece = board.GetNearestPiece(Input.mousePosition);
-			if (piece != selectedPiece)
-			{
-				board.OnDragging(piece);
-			}
-		}
-		else if (Input.GetMouseButtonUp(0)) {
-			currentState = GameState.DeleteTracingPiece;
-		}
-	}
+    private void TracingMove()
+    {
+        if (Input.GetMouseButton(0))
+        {
+            var piece = board.GetNearestPiece(Input.mousePosition);
+            if (piece != selectedPiece)
+            {
+                board.OnDragging(piece);
+            }
+        }
+        else if (Input.GetMouseButtonUp(0))
+        {
 
-	// なぞりモードのアイドリング
-	// g → なぞったピースを除去
+            currentState = GameState.DeleteTracingPiece;
+        }
+    }
+
+    // なぞりモードのアイドリング
+    // g → なぞったピースを除去
     // 初期化ボタン作成
-	private void TracingIdle()
-	{
-		if (Input.GetKeyDown(KeyCode.G)) {
-			currentState = GameState.DeleteTracingPiece;
-		}
-        if(Input.GetKeyDown(KeyCode.I)){
+    private void TracingIdle()
+    {
+        if (Input.GetKeyDown(KeyCode.G))
+        {
+            currentState = GameState.DeleteTracingPiece;
+        }
+        if (Input.GetKeyDown(KeyCode.I))
+        {
             currentState = GameState.Idle;
         }
-		if (Input.GetMouseButtonDown(0))
-		{
-			selectedPiece = board.GetNearestPiece(Input.mousePosition);
-			currentState = GameState.Tracing;
-		}
-	}
+        if (Input.GetMouseButtonDown(0))
+        {
+            selectedPiece = board.GetNearestPiece(Input.mousePosition);
+            currentState = GameState.Tracing;
+        }
+    }
 
 
     // 90°回転右回り
@@ -292,19 +342,46 @@ public class GameManager : MonoBehaviour {
     {
         Debug.Log("TurnCount");
         Debug.Log(countRotaion);
-        board.Rotation(countRotaion * 90.0f);
+
+        currentState = GameState.Wait;
+        StartCoroutine(board.Rotation(countRotaion * 90.0f,()=> Afterrot()));
+
+    }
+
+    private void Afterrot(){
         countRotaion += 1.0f;
         turnTime = TurnTime; // 制限時間初期化
         currentState = GameState.Idle;
     }
 
-    public void TracClick(){
+    public void TracClick()
+    {
         Debug.Log("trac");
         currentState = GameState.TracingIdle;
     }
 
-    public void PassClick(){
+    public void PassClick()
+    {
         Debug.Log("pass");
         currentState = GameState.Rotation;
     }
+
+    /*
+    // ピースを選択する処理
+    private void SelectPiece()
+    {
+        selectedPiece = board.GetNearestPiece(Input.mousePosition);
+        var piece = board.InstantiatePiece(Input.mousePosition);
+        piece.SetKind(selectedPiece.GetKind());
+        piece.SetSize((int)(board.pieceWidth * 1.2f));
+        piece.SetPieceAlpha(SelectedPieceAlpha);
+        selectedPieceObject = piece.gameObject;
+        countMove = 1;
+
+        selectedPiece.SetPieceAlpha(SelectedPieceAlpha);
+        currentState = GameState.PieceMove;
+
+
+    }
+    */
 }

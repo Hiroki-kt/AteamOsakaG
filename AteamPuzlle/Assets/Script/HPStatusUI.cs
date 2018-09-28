@@ -17,7 +17,7 @@ public class HPStatusUI : MonoBehaviour {
 		hpSlider = transform.Find("HPBar").GetComponent<Slider>();
         MaxHp = enemy.enemy.baseHp;
 		hpSlider.value = MaxHp/MaxHp;
-        Debug.Log(hpSlider.value);
+        //Debug.Log(hpSlider.value);
 		
 	}
 	

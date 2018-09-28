@@ -18,7 +18,7 @@ public class HPStatusUIPlayer : MonoBehaviour {
         hpSlider = transform.Find("HPBar").GetComponent<Slider>();
         MaxHp = chara.chara.baseHp;
         hpSlider.value = MaxHp / MaxHp;
-        Debug.Log(hpSlider.value);
+        //Debug.Log(hpSlider.value);
 
     }
 
