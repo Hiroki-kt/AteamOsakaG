@@ -1,0 +1,386 @@
+fileFormatVersion: 2
+guid: f91afd50af8cb7443bda25cadaecf4bc
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: "ageha - \u30B3\u30D4\u30FC_0"
+    21300002: "ageha - \u30B3\u30D4\u30FC_1"
+    21300004: "ageha - \u30B3\u30D4\u30FC_2"
+    21300006: "ageha - \u30B3\u30D4\u30FC_3"
+    21300008: "ageha - \u30B3\u30D4\u30FC_4"
+    21300010: "ageha - \u30B3\u30D4\u30FC_5"
+    21300012: "ageha - \u30B3\u30D4\u30FC_6"
+    21300014: "ageha - \u30B3\u30D4\u30FC_7"
+    21300016: "ageha - \u30B3\u30D4\u30FC_8"
+    21300018: "ageha - \u30B3\u30D4\u30FC_9"
+    21300020: "ageha - \u30B3\u30D4\u30FC_10"
+    21300022: "ageha - \u30B3\u30D4\u30FC_11"
+    21300024: "ageha - \u30B3\u30D4\u30FC_12"
+    21300026: "ageha - \u30B3\u30D4\u30FC_13"
+    21300028: "ageha - \u30B3\u30D4\u30FC_14"
+    21300030: "ageha - \u30B3\u30D4\u30FC_15"
+    21300032: "ageha - \u30B3\u30D4\u30FC_16"
+    21300034: "ageha - \u30B3\u30D4\u30FC_17"
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: 1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_0"
+      rect:
+        serializedVersion: 2
+        x: 125
+        y: 1623.8711
+        width: 500.40594
+        height: 925.4409
+      alignment: 9
+      pivot: {x: 0.49859518, y: 0.4993605}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_1"
+      rect:
+        serializedVersion: 2
+        x: 750.44934
+        y: 1965.389
+        width: 529.72363
+        height: 555.0436
+      alignment: 9
+      pivot: {x: 0.5003564, y: 0.498359}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_2"
+      rect:
+        serializedVersion: 2
+        x: 1431.9999
+        y: 1884.8506
+        width: 427.1117
+        height: 205.88037
+      alignment: 9
+      pivot: {x: 0.4986986, y: 0.49858707}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_3"
+      rect:
+        serializedVersion: 2
+        x: 1993
+        y: 1576.8749
+        width: 439.10522
+        height: 880.1354
+      alignment: 9
+      pivot: {x: 0.4987415, y: 0.50006527}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_4"
+      rect:
+        serializedVersion: 2
+        x: 294
+        y: 1442.8854
+        width: 16.99997
+        height: 13.999878
+      alignment: 9
+      pivot: {x: 0.5000009, y: 0.5081918}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_5"
+      rect:
+        serializedVersion: 2
+        x: 579
+        y: 1177.9065
+        width: 191.237
+        height: 291.16162
+      alignment: 9
+      pivot: {x: 0.4967658, y: 0.4966091}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_6"
+      rect:
+        serializedVersion: 2
+        x: 1115
+        y: 1251.9006
+        width: 240.54407
+        height: 325.80713
+      alignment: 9
+      pivot: {x: 0.49679047, y: 0.4990663}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_7"
+      rect:
+        serializedVersion: 2
+        x: 1566.9999
+        y: 1225.9026
+        width: 289.8512
+        height: 259.18115
+      alignment: 9
+      pivot: {x: 0.49680662, y: 0.4961676}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_8"
+      rect:
+        serializedVersion: 2
+        x: 2061
+        y: 1201.9045
+        width: 299.1797
+        height: 263.1787
+      alignment: 9
+      pivot: {x: 0.49802846, y: 0.4962235}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_9"
+      rect:
+        serializedVersion: 2
+        x: 108
+        y: 1200.9047
+        width: 227.21786
+        height: 253.85107
+      alignment: 9
+      pivot: {x: 0.49732, y: 0.49672958}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_10"
+      rect:
+        serializedVersion: 2
+        x: 61.999985
+        y: 132.98909
+        width: 635.0011
+        height: 802.8492
+      alignment: 9
+      pivot: {x: 0.49921176, y: 0.49886197}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_11"
+      rect:
+        serializedVersion: 2
+        x: 1041.9999
+        y: 669.94666
+        width: 601.68567
+        height: 324.4746
+      alignment: 9
+      pivot: {x: 0.49859923, y: 0.4978923}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_12"
+      rect:
+        serializedVersion: 2
+        x: 1820
+        y: 673.9463
+        width: 135.26672
+        height: 328.47223
+      alignment: 9
+      pivot: {x: 0.4953186, y: 0.49792248}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_13"
+      rect:
+        serializedVersion: 2
+        x: 2139
+        y: 678.9459
+        width: 185.9065
+        height: 351.125
+      alignment: 9
+      pivot: {x: 0.49487242, y: 0.49855185}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_14"
+      rect:
+        serializedVersion: 2
+        x: 806
+        y: 91.99232
+        width: 301.84485
+        height: 465.72168
+      alignment: 9
+      pivot: {x: 0.49694404, y: 0.4981681}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_15"
+      rect:
+        serializedVersion: 2
+        x: 1323.9999
+        y: 95.99201
+        width: 343.15625
+        height: 417.75104
+      alignment: 9
+      pivot: {x: 0.49831563, y: 0.49792328}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_16"
+      rect:
+        serializedVersion: 2
+        x: 1787
+        y: 252.97958
+        width: 128.60352
+        height: 296.49167
+      alignment: 9
+      pivot: {x: 0.49376565, y: 0.49755323}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "ageha - \u30B3\u30D4\u30FC_17"
+      rect:
+        serializedVersion: 2
+        x: 2216
+        y: 245.98015
+        width: 175.24536
+        height: 283.1665
+      alignment: 9
+      pivot: {x: 0.49644682, y: 0.49801037}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 100780697452544
+  assetBundleName: 
+  assetBundleVariant: 

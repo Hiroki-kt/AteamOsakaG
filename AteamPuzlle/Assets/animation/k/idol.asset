@@ -1,0 +1,146 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae0543fe805424df99fe08ce744cbe49, type: 3}
+  m_Name: idol
+  m_EditorClassIdentifier: 
+  m_PoseEntries:
+  - path: doushita
+    localPosition: {x: 4.0164423, y: -2.3633683, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.7114294, w: 0.70275766}
+    localScale: {x: 2.0606456, y: 2.060645, z: 2.0606441}
+  - path: doushita/douue
+    localPosition: {x: 1.0054781, y: 0.0011120023, z: 0}
+    localRotation: {x: 0, y: -0, z: -0.028612908, w: 0.9995906}
+    localScale: {x: 1.1843585, y: 1.1843591, z: 1.1843585}
+  - path: doushita/douue/face
+    localPosition: {x: 1.2583443, y: -0.049689483, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.1809868, w: 0.9834855}
+    localScale: {x: 0.6977984, y: 0.6977987, z: 0.6977986}
+  - path: doushita/douue/face/eye
+    localPosition: {x: 1.0002961, y: 0.00000014948168, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.55750865, w: 0.83017117}
+    localScale: {x: 0.31994867, y: 0.31994867, z: 0.31994867}
+  - path: doushita/douue/face/eye 1
+    localPosition: {x: 0.8884919, y: 0.301237, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.5574784, w: 0.83019143}
+    localScale: {x: 0.319946, y: 0.31994617, z: 0.31994593}
+  - path: doushita/douue/face/New bone
+    localPosition: {x: 0.29217312, y: -0.31398883, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.53329575, w: 0.8459289}
+    localScale: {x: 0.18837738, y: 0.18837738, z: 0.18837738}
+  - path: doushita/douue/face/Rtuno
+    localPosition: {x: 2.3656542, y: 1.7990692, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.2921698, w: 0.95636654}
+    localScale: {x: 0.58719677, y: 0.5871966, z: 0.5871968}
+  - path: doushita/douue/face/Ltuno
+    localPosition: {x: 2.9722135, y: -0.4173751, z: 0}
+    localRotation: {x: -0, y: -0, z: 0.032991063, w: 0.99945563}
+    localScale: {x: 0.58719707, y: 0.58719665, z: 0.5871968}
+  - path: doushita/douue/face/ushirokami
+    localPosition: {x: 2.8768916, y: 0.75114405, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.9949479, w: 0.10039292}
+    localScale: {x: 0.77626234, y: 0.77626294, z: 0.77626276}
+  - path: doushita/douue/face/urakami
+    localPosition: {x: 0.17407589, y: 0.11408463, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.9984423, w: 0.055794626}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/douue/face/New bone
+    localPosition: {x: 0.8599858, y: 1.0871353, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9997172, w: -0.023782961}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/douue/face/New bone (1)
+    localPosition: {x: 1.1574982, y: -0.91377664, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9599397, w: -0.2802067}
+    localScale: {x: 1.0000026, y: 1.0000018, z: 1.000002}
+  - path: doushita/douue/face/New bone (2)
+    localPosition: {x: 2.2931306, y: -1.2490944, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.8753161, w: -0.48355132}
+    localScale: {x: 1.0000026, y: 1.0000021, z: 1.000002}
+  - path: doushita/douue/face/New bone (3)
+    localPosition: {x: 1.2675171, y: -1.0424694, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9341911, w: -0.35677302}
+    localScale: {x: 1.0000019, y: 1.000002, z: 1.000002}
+  - path: doushita/douue/face/New bone (4)
+    localPosition: {x: 0.5261636, y: 1.6071024, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9997398, w: 0.022811247}
+    localScale: {x: 1.0000024, y: 1.0000019, z: 1.000002}
+  - path: doushita/douue/face/New bone (5)
+    localPosition: {x: 1.2624097, y: 2.224618, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.97687465, w: 0.21381322}
+    localScale: {x: 1.0000032, y: 1.0000025, z: 1.000002}
+  - path: doushita/douue/face/New bone (6)
+    localPosition: {x: 2.1947384, y: 2.0453506, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.909809, w: 0.41502717}
+    localScale: {x: 1.0000035, y: 1.0000031, z: 1.000002}
+  - path: doushita/douue/face/New bone (7)
+    localPosition: {x: 2.1627684, y: 1.8687092, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9988432, w: 0.048086528}
+    localScale: {x: 1.0000024, y: 1.0000026, z: 1.000002}
+  - path: doushita/douue/face/New bone (8)
+    localPosition: {x: 2.8823876, y: -0.66820675, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.9418427, w: -0.3360543}
+    localScale: {x: 1.0000027, y: 1.0000021, z: 1.000002}
+  - path: doushita/douue/face/New bone (9)
+    localPosition: {x: 2.8329134, y: -0.9609645, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.88316417, w: -0.4690642}
+    localScale: {x: 1.0000025, y: 1.0000021, z: 1.000002}
+  - path: doushita/douue/Rarm
+    localPosition: {x: 0.8688352, y: 0.37983644, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.98174226, w: -0.19021632}
+    localScale: {x: 0.79299736, y: 0.79299706, z: 0.79299676}
+  - path: doushita/douue/Rarm/Rarm1
+    localPosition: {x: 1.0000004, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.041052565, w: 0.9991571}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/douue/Rarm/Rarm1/Rhand
+    localPosition: {x: 1.0000007, y: -0.00000003047171, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 0.33267158, y: 0.33267158, z: 0.33267158}
+  - path: doushita/douue/Larm
+    localPosition: {x: 0.8864618, y: -0.51665694, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.9769842, w: 0.21331172}
+    localScale: {x: 0.792997, y: 0.79299676, z: 0.79299676}
+  - path: doushita/douue/Larm/Larm1
+    localPosition: {x: 1.0000004, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.010233495, w: 0.9999477}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/douue/Larm/Larm1/Lhand
+    localPosition: {x: 1.0000007, y: -0.00000003047171, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.11566452, w: 0.99328834}
+    localScale: {x: 0.33267158, y: 0.33267158, z: 0.33267158}
+  - path: doushita/douue/Larm/Larm1/Lhand/New bone
+    localPosition: {x: 1.0000163, y: 0.00006475163, z: 0}
+    localRotation: {x: 0, y: 0, z: -0.03237502, w: 0.99947584}
+    localScale: {x: 2.4586792, y: 2.4586775, z: 2.4586775}
+  - path: doushita/Rleg
+    localPosition: {x: -0.07916021, y: 0.3235196, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.99472713, w: -0.10255715}
+    localScale: {x: 1.1321676, y: 1.1321675, z: 1.1321672}
+  - path: doushita/Rleg/Rleg1
+    localPosition: {x: 0.99999994, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/Rleg/Rleg1/Rtool
+    localPosition: {x: 0.9999997, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.7742276, w: 0.6329073}
+    localScale: {x: 0.2815894, y: 0.2815894, z: 0.2815894}
+  - path: doushita/Lleg
+    localPosition: {x: -0.101826556, y: -0.42881015, z: 0}
+    localRotation: {x: -0, y: -0, z: -0.982968, w: 0.1837769}
+    localScale: {x: 1.1321676, y: 1.1321671, z: 1.1321672}
+  - path: doushita/Lleg/Lleg1
+    localPosition: {x: 0.99999994, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0, w: 1}
+    localScale: {x: 1, y: 1, z: 1}
+  - path: doushita/Lleg/Lleg1/Ltool
+    localPosition: {x: 0.9999997, y: 0, z: 0}
+    localRotation: {x: 0, y: 0, z: 0.56654406, w: 0.82403153}
+    localScale: {x: 0.2815894, y: 0.2815894, z: 0.2815894}
