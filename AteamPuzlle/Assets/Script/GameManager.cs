@@ -8,6 +8,10 @@ using UnityEngine.SceneManagement;
 // ゲーム管理クラス
 public class GameManager : MonoBehaviour
 {
+	
+	public AudioClip damageSound;
+	public AudioSource damageSource;
+
 
     // const.
     public const int MachingCount = 3;
@@ -66,6 +70,8 @@ public class GameManager : MonoBehaviour
     // ゲームの初期化処理
     private void Start()
     {
+		damageSource = gameObject.GetComponent<AudioSource>();
+		
         board.InitializeBoard(6, 6);
 
         currentState = GameState.Idle;
@@ -83,6 +89,7 @@ public class GameManager : MonoBehaviour
     // ゲームのメインループ
     private void Update()
     {
+
         GameTime -= Time.deltaTime;
         turnTime -= Time.deltaTime;
         if (GameTime < 0) GameTime = 0;
@@ -247,12 +254,21 @@ public class GameManager : MonoBehaviour
     private void DeleteTracingPiece()
     {
         currentState = GameState.Wait;
+
         if (board.GetStartGoal() == "True")
         {
+
             board.GetCalculation();
             StartCoroutine(board.OnDragEnd(() => currentState = GameState.FillPiece));
+			damageSource.PlayOneShot (damageSound);
+
+
+
             //board.OnDragEnd();
             //currentState = GameState.FillPiece;
+
+
+
         }
         else if (board.GetStartGoal() == "False")
         {

@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class BattleManager : MonoBehaviour {
 
+	public AudioClip damageSound;
+	private AudioSource damageSource;
     public CharaState chara;
     public CharaState no2;
     public CharaState no3;
@@ -94,6 +96,8 @@ public class BattleManager : MonoBehaviour {
         No3Interval = 0;
         No4Interval = 0;
         SkillGage = 0;
+
+		damageSource = gameObject.GetComponent<AudioSource>();
 
         //EnemyHp = manticore.maxHp;
         //PlayerHp = no1.MaxHp;
@@ -204,6 +208,8 @@ public class BattleManager : MonoBehaviour {
     {
         var Damage = PlayerATK - EnemyDEF;
         EnemyHp -= Damage;
+		damageSource.PlayOneShot (damageSound);
+
         //Debug.Log("Player attack");
         //Debug.Log(EnemyHp);
     }
@@ -215,7 +221,9 @@ public class BattleManager : MonoBehaviour {
     {
         var Damage = EnemyATK - PlayerDEF;
         PlayerHp -= Damage;
-        //Debug.Log("Enemy attack");
+		damageSource.PlayOneShot (damageSound);
+
+		//Debug.Log("Enemy attack");
         //Debug.Log(PlayerHp);
         //Debug.Log(Damage);
     }
@@ -223,7 +231,9 @@ public class BattleManager : MonoBehaviour {
     {
         var Damage = 1.5f * EnemyATK - PlayerDEF;
         PlayerHp -= Damage;
-        //Debug.Log("Enemy Big attack");
+		damageSource.PlayOneShot (damageSound);
+
+		//Debug.Log("Enemy Big attack");
         //Debug.Log(PlayerHp);
         //Debug.Log(Damage);
     }
