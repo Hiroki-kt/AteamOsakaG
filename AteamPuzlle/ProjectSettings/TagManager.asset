@@ -40,6 +40,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Haikei
+    uniqueID: 1077905117
+    locked: 0
+  - name: BK
+    uniqueID: 3213503437
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Board
+    uniqueID: 972499441
     locked: 0

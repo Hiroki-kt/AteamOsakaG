@@ -316,12 +316,20 @@
     <Compile Include="Assets\Script\result.cs" />
     <Compile Include="Assets\Script\Riset.cs" />
     <Compile Include="Assets\Script\rottest.cs" />
+    <Compile Include="Assets\Script\test6.cs" />
     <Compile Include="Assets\Script\TimeOver.cs" />
     <Compile Include="Assets\Script\TimeScript.cs" />
     <Compile Include="Assets\Script\TitleGame.cs" />
     <Compile Include="Assets\Script\TurnTime.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Assets\Anima2D\Examples\Shaders\Unlit-Alpha-Cull-off.shader" />
+    <None Include="Assets\Anima2D\Examples\Shaders\VertexLitOneDirectional.shader" />
+    <None Include="Assets\Anima2D\Examples\Shaders\VisibleInsideMask.shader" />
+    <None Include="Assets\Anima2D\Examples\Shaders\VisibleOutsideMask.shader" />
+    <None Include="Assets\Anima2D\Licenses.txt" />
+    <None Include="Assets\Anima2D\Readme.txt" />
+    <None Include="Assets\Anima2D\Version.txt" />
     <None Include="Assets\Standard Assets\CrossPlatformInput\CrossPlatformInputGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\ParticleSystemsGuidelines.txt" />
     <None Include="Assets\Standard Assets\ParticleSystems\Shaders\PriorityParticleAdd.shader" />

@@ -26,7 +26,7 @@ public class beeani : MonoBehaviour {
 	}
     public static void bee()
     {
-        Debug.Log(beea);
+        //Debug.Log(beea);
         i = 1;
        
         

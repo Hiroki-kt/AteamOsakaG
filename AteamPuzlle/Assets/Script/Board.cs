@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
+using UnityEngine.UI;
 
 // 盤面クラス
 public class Board : MonoBehaviour {
@@ -21,6 +22,7 @@ public class Board : MonoBehaviour {
     // private.
     private Piece[,] board;
     private Piece[,] rotboard;
+    private GameManager gameManager;
 	private int width;
 	private int height;
 	private int pieceWidth;
@@ -259,23 +261,24 @@ public class Board : MonoBehaviour {
             {
                 ColorTypeList.Add(TypeList[ColorIdList[i]]);
             }
-            //GetCalulationOff();
+            GetCalulationOff();
+            //BattleManager.No2ATKc = GetCalculationoff();
             //Debug.Log("Offence");
             //Debug.Log(GetCalulationOff());
-            //GetCalulationDef();
+            GetCalulationDef();
             //Debug.Log("Defence");
             //Debug.Log(GetCalulationDef());
-            //GetCalulationSki();
+            GetCalulationSki();
             //Debug.Log("Skill");
             //Debug.Log(GetCalulationSki());
         }else{
-            //GetCalulationOffNotColor();
+            GetCalulationOffNotColor();
             //Debug.Log("Offence");
             //Debug.Log(GetCalulationOffNotColor());
-            //GetCalulationDefNotColor();
+            GetCalulationDefNotColor();
             //Debug.Log("Defence");
             //Debug.Log(GetCalulationDefNotColor());
-            //GetCalulationSkiNotColor();
+            GetCalulationSkiNotColor();
             //Debug.Log("Skill");
             //Debug.Log(GetCalulationSkiNotColor());
         }
@@ -317,12 +320,15 @@ public class Board : MonoBehaviour {
 					//直前にリストにいれたのと異なるボールのとき
 					var dist = Vector3.Distance (LastPiece.transform.position, piece.transform.position); //直前のボールと現在のボールの距離を計算
                     if (dist <= (float)pieceWidth * 1.2f) {
-						//ボール間の距離が一定値以下のとき
-						PushToList (piece, piececolor, piecetype); //消去するリストにボールを追加
-                        //CreateLight(piece);
-                        currentType = piecetype;
-                        currentColor = piececolor;
-					}
+                        if(removableBallList.Any(x => x == piece) == false){
+                            //ボール間の距離が一定値以下のとき
+                            PushToList(piece, piececolor, piecetype); //消去するリストにボールを追加
+                            //CreateLight(piece);
+                            currentType = piecetype;
+                            currentColor = piececolor;
+
+                        }
+                    }
 				}
 			}
 		}
@@ -338,7 +344,7 @@ public class Board : MonoBehaviour {
                 effect.transform.position = pos;
                 effect.Emit(1);
                 Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
-                yield return new WaitForSeconds(0.3f);
+                yield return new WaitForSeconds(0.1f);
             }
 			
 			firstPiece = null; //変数の初期化
@@ -562,34 +568,154 @@ public class Board : MonoBehaviour {
 	}
 
     // キャラと同属性は個数×３、その他は個数×１　それぞれのタイプのステータス上昇
-    private int GetCalulationOff()
+    private void GetCalulationOff()
     {
-        return TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
+        var bafof = 10 * TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateOff");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerATKc += bafof;
+        }
+        else if(cuntrot == 2){
+            BattleManager.No4ATKc += bafof;
+        }
+        else if(cuntrot == 3){
+            BattleManager.No2ATKc += bafof;
+        }
+        else{
+            BattleManager.No3ATKc += bafof;
+        }  
     }
 
-    private int GetCalulationDef()
+    private void GetCalulationDef()
     {
-        return TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
+        var bafdf = 10 * TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerDEFc += bafdf;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4DEFc += bafdf;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2DEFc += bafdf;
+        }
+        else
+        {
+            BattleManager.No3DEFc += bafdf;
+        }
+
     }
 
-    private int GetCalulationSki()
+    private void GetCalulationSki()
     {
-        return TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
+        var skl = TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerSKLc -= skl;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4SKLc -= skl;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2SKLc -= skl;
+        }
+        else
+        {
+            BattleManager.No3SKLc -= skl;
+        }
+       
     }
 
-    private int GetCalulationOffNotColor()
+    private void GetCalulationOffNotColor()
     {
-        return TypeList.Count(x => x == "Offence");
+        var bafof = 10 * TypeList.Count(x => x == "Offence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerATKc += bafof;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4ATKc += bafof;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2ATKc += bafof;
+        }
+        else
+        {
+            BattleManager.No3ATKc += bafof;
+        }
+
     }
 
-    private int GetCalulationDefNotColor()
+    private void GetCalulationDefNotColor()
     {
-        return TypeList.Count(x => x == "Defence");
+        var bafdf = 10 * TypeList.Count(x => x == "Defence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerDEFc += bafdf;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4DEFc += bafdf;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2DEFc += bafdf;
+        }
+        else
+        {
+            BattleManager.No3DEFc += bafdf;
+        }
     }
 
-    private int GetCalulationSkiNotColor()
+    private void GetCalulationSkiNotColor()
     {
-        return TypeList.Count(x => x == "Skill");
+        var skl =  TypeList.Count(x => x == "Skill");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerSKLc -= skl;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4SKLc -= skl;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2SKLc -= skl;
+        }
+        else
+        {
+            BattleManager.No3SKLc -= skl;
+        }
     }
 
     // 特定のピースがマッチしている場合、ほかのマッチしたピースとともに削除する

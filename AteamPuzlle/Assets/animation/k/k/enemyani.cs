@@ -28,7 +28,7 @@ public class enemyani : MonoBehaviour {
 	}
     public static void ene()
     {
-        Debug.Log(enea);
+        //Debug.Log(enea);
         p = 1;
        
         

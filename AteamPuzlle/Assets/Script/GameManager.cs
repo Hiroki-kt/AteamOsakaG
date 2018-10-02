@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using System;
 
 // ゲーム管理クラス
 public class GameManager : MonoBehaviour
@@ -14,7 +15,7 @@ public class GameManager : MonoBehaviour
 
     // public
     public static float AllTime = 300;
-    public static float TurnTime = 50;
+    public static float TurnTime = 60;
 
     // enum.
     private enum GameState
@@ -40,6 +41,11 @@ public class GameManager : MonoBehaviour
     private Text stateText;
     //[SerializeField]
     //private Manticore manticore;
+    [SerializeField]
+    private Text _textCountdown;
+    [SerializeField]
+    private Image _imageMask;
+
 
 
 
@@ -47,7 +53,7 @@ public class GameManager : MonoBehaviour
     private GameState currentState;
     private Piece selectedPiece;
     //private Piece firstPiece;
-    private float countRotaion = 1.0f;
+    public static float countRotaion = 1.0f;
     private int countMove;
     public static float GameTime;
     public static float turnTime;
@@ -66,17 +72,12 @@ public class GameManager : MonoBehaviour
     // ゲームの初期化処理
     private void Start()
     {
-        board.InitializeBoard(6, 6);
-
-        currentState = GameState.Idle;
-
-        Trac = GetComponent<Button>();
-        //Trac.onClick.AddListener(TracClick());
+        _textCountdown.text = "";
 
         GameTime = AllTime;
         turnTime = TurnTime;
-        //SceneManager.LoadScene("baattleanim", LoadSceneMode.Additive);
-        //target = GameObject.Find("Board").transform;
+        // カウントダウン表示
+        StartCoroutine(CountdownCoroutine(() => StartBoard()));
 
     }
 
@@ -150,7 +151,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            SceneManager.LoadScene("ResultScene");
+            GameOver();
         }
 
     }
@@ -341,8 +342,22 @@ public class GameManager : MonoBehaviour
     // 90°回転右回り
     private void Rotation()
     {
-        Debug.Log("TurnCount");
+        //Debug.Log("TurnCount");
         Debug.Log(countRotaion);
+        var No1 = GameObject.Find("No1L").transform;
+        var No2 = GameObject.Find("No2L").transform;
+        var No3 = GameObject.Find("No3L").transform;
+        var No4 = GameObject.Find("No4L").transform;
+
+        var No1pos = No1.position;
+        var No2pos = No2.position;
+        var NO3pos = No3.position;
+        var NO4pos = No4.position;
+
+        No1.position = No2pos;
+        No2.position = NO4pos;
+        No3.position = No1pos;
+        No4.position = NO3pos;
 
         currentState = GameState.Wait;
         StartCoroutine(board.Rotation(countRotaion * 90.0f,()=> Afterrot()));
@@ -350,6 +365,7 @@ public class GameManager : MonoBehaviour
     }
 
     private void Afterrot(){
+
         countRotaion += 1.0f;
         turnTime = TurnTime; // 制限時間初期化
         currentState = GameState.Idle;
@@ -357,8 +373,13 @@ public class GameManager : MonoBehaviour
 
     public void TracClick()
     {
-        Debug.Log("trac");
-        currentState = GameState.TracingIdle;
+        if(currentState == GameState.PieceMove || currentState == GameState.Idle){
+            Debug.Log("trac");
+            currentState = GameState.TracingIdle;
+        }else{
+            Debug.Log("exchange");
+            currentState = GameState.Idle;
+        }
     }
 
     public void PassClick()
@@ -385,4 +406,78 @@ public class GameManager : MonoBehaviour
 
     }
     */
+
+    private IEnumerator CountdownCoroutine(Action endCallBack)
+    {
+        _imageMask.gameObject.SetActive(true);
+        _textCountdown.gameObject.SetActive(true);
+
+        _textCountdown.text = "3";
+        yield return new WaitForSeconds(1.0f);
+
+        _textCountdown.text = "2";
+        yield return new WaitForSeconds(1.0f);
+
+        _textCountdown.text = "1";
+        yield return new WaitForSeconds(1.0f);
+
+        _textCountdown.text = "GO!";
+        yield return new WaitForSeconds(1.0f);
+
+        _textCountdown.text = "";
+        _textCountdown.gameObject.SetActive(false);
+        _imageMask.gameObject.SetActive(false);
+
+        endCallBack();
+    }
+
+    private void StartBoard(){
+        board.InitializeBoard(6, 6);
+
+        currentState = GameState.Idle;
+
+        Trac = GetComponent<Button>();
+        //Trac.onClick.AddListener(TracClick());
+
+        GameTime = AllTime;
+        turnTime = TurnTime;
+
+        SceneManager.LoadScene("baattleanim", LoadSceneMode.Additive);
+        //target = GameObject.Find("Board").transform;
+
+    }
+
+    private void GameOver()
+    {
+        _imageMask.gameObject.SetActive(true);
+        _textCountdown.gameObject.SetActive(true);
+
+        _textCountdown.text = "GameOver";
+
+        if(Input.GetMouseButtonDown(0)){
+            _textCountdown.gameObject.SetActive(false);
+            _imageMask.gameObject.SetActive(false);
+            SceneManager.LoadScene("ResultSceneBud");
+        }
+
+    }
+
+    private void GameClear()
+    {
+        _imageMask.gameObject.SetActive(true);
+        _textCountdown.gameObject.SetActive(true);
+
+        _textCountdown.text = "GameClear";
+
+        if(Input.GetMouseButtonDown(0)){
+            _textCountdown.gameObject.SetActive(false);
+            _imageMask.gameObject.SetActive(false);
+            SceneManager.LoadScene("ResultSceneGood");
+
+        }
+    }
+
+    public float GetRollCount(){
+        return countRotaion;
+    }
 }

@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TurnTime : MonoBehaviour {
-    [SerializeField]
     private float time = GameManager.TurnTime;
 
     // Use this for initialization
@@ -19,7 +18,7 @@ public class TurnTime : MonoBehaviour {
     {
         time = GameManager.turnTime;
         //1秒に1ずつ減らす
-        time -= Time.deltaTime;
+        //time -= Time.deltaTime;
         //マイナスは表示しない
         if (time < 0) time = 0;
         GetComponent<Text>().text = ((int)time).ToString();

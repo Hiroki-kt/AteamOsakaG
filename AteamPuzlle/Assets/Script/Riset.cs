@@ -9,7 +9,7 @@ public class Riset : MonoBehaviour {
 
     }
     public void Onclick(){
-		SceneManager.LoadScene ("TitleScene");
+		SceneManager.LoadScene ("MypageScene");
 	}
 		
 }

@@ -13,10 +13,15 @@ public class TitleGame : MonoBehaviour {
 	// Update is called once per frame
 	void Update () 
     {
-		if(Input.GetMouseButton(0))
-        {
-			SceneManager.LoadScene ("MypageScene");
-		}
 		
 	}
+
+    public void Click(){
+        StartCoroutine(StartClick());
+    }
+
+    private IEnumerator StartClick(){
+        SceneManager.LoadScene("MypageScene");
+        yield return new WaitForSeconds(2f);
+    }
 }

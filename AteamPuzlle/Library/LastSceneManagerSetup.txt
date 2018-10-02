@@ -1,4 +1,4 @@
 sceneSetups:
-- path: Assets/Asset/baattleanim.unity
+- path: Assets/Asset/GameScene.unity
   isLoaded: 1
   isActive: 1

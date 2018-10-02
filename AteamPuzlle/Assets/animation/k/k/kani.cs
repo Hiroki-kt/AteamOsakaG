@@ -24,7 +24,7 @@ public class kani : MonoBehaviour {
             i = 2;
             
 
-            Debug.Log(i);
+            //Debug.Log(i);
         }/*if (i == 2)
             {
                 animator.ResetTrigger("Speed");
@@ -33,7 +33,7 @@ public class kani : MonoBehaviour {
 	}
     public static void kuwagata()
     {
-        Debug.Log(i);
+        //Debug.Log(i);
         i = 1;
        
         
