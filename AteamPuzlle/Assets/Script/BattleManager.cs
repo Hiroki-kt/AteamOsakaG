@@ -14,6 +14,22 @@ public class BattleManager : MonoBehaviour
     public CharaState no4;
     public EnemyState enemy;
     public GameObject OhakaPrefab;
+    public GameObject no1obj;
+    public GameObject no2obj;
+    public GameObject no3obj;
+    public GameObject no4obj;
+    public GameObject enemyobj;
+    public Text No1DamageText;
+    public Text No2DamageText;
+    public Text No3DamageText;
+    public Text No4DamageText;
+    public Text EnemyDamageText;
+    public Image No1ActionImage;
+    public Image No2ActionImage;
+    public Image No3ActionImage;
+    public Image No4ActionImage;
+    public Image EnemyActionImage;
+
     [SerializeField]
     private Text _textCountdown;
     [SerializeField]
@@ -38,6 +54,7 @@ public class BattleManager : MonoBehaviour
     public static float No2SKLc;
     public static float No3SKLc;
     public static float No4SKLc;
+    
 
     public enum BattleState
     {
@@ -45,6 +62,7 @@ public class BattleManager : MonoBehaviour
         PlayerBattle,
         PlayerDie,
         PlayerWin,
+        Wait,
     }
 
     private BattleState currentState;
@@ -88,12 +106,14 @@ public class BattleManager : MonoBehaviour
     private bool partyisDead = false;
     public static float attackanim;
     public GameObject prefab;
+    public GameObject prefab2;
     private int No1diecount = 0;
     private int No2diecount = 0;
     private int No3diecount = 0;
     private int No4diecount = 0;
     private bool Flash = true;
     private GameManager gameManager;
+    private int e=0;
 
     // Use this for initialization
     void Start()
@@ -180,12 +200,16 @@ public class BattleManager : MonoBehaviour
                 break;
             case BattleState.PlayerBattle:
                 PlayerBattle();
+                Debug.Log("battle");
                 break;
             case BattleState.PlayerWin:
                 StartCoroutine(PlayerWin(() => GameClear()));
                 break;
             case BattleState.PlayerDie:
                 StartCoroutine(PlayerDie(() => GameOver()));
+                break;
+            case BattleState.Wait:
+                Debug.Log("wait");
                 break;
             default:
                 break;
@@ -199,7 +223,7 @@ public class BattleManager : MonoBehaviour
     //-------------------
     private IEnumerator PlayerSet()
     {
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(0.5f);
         currentState = BattleState.PlayerBattle;
     }
 
@@ -209,7 +233,7 @@ public class BattleManager : MonoBehaviour
         if (PlayerHp < 0 && No1diecount == 0)
         {
             PlayerisDead = true;
-            var no1obj = GameObject.Find("No1");
+            //var no1obj = GameObject.Find("No1");
             Instantiate(OhakaPrefab, no1obj.transform.position, Quaternion.identity);
             no1obj.SetActive(false);
             No1diecount = 1;
@@ -218,7 +242,7 @@ public class BattleManager : MonoBehaviour
         if (No2Hp < 0 && No2diecount == 0)
         {
             No2isDead = true;
-            var no2obj = GameObject.Find("No2");
+            //var no2obj = GameObject.Find("No2");
             Instantiate(OhakaPrefab, no2obj.transform.position, Quaternion.identity);
             no2obj.SetActive(false);
             No2diecount = 1;
@@ -227,16 +251,17 @@ public class BattleManager : MonoBehaviour
         if (No3Hp < 0 && No3diecount == 0)
         {
             No3isDead = true;
-            var no3obj = GameObject.Find("No3");
+            //var no3obj = GameObject.Find("No3");
             Instantiate(OhakaPrefab, no3obj.transform.position, Quaternion.identity);
             no3obj.SetActive(false);
             No3diecount = 1;
             Debug.Log("No3Die");
+            Instantiate(prefab2);
         }
         if (No4Hp < 0 && No4diecount == 0)
         {
             No4isDead = true;
-            var no4obj = GameObject.Find("No4");
+            //var no4obj = GameObject.Find("No4");
             Instantiate(OhakaPrefab, no4obj.transform.position, Quaternion.identity);
             no4obj.SetActive(false);
             No4diecount = 1;
@@ -304,18 +329,28 @@ public class BattleManager : MonoBehaviour
                 No3Skill();
                 No3SkillGage = 0;
             }
-            if (No4SkillGage > No4SKL - No4SKLc && No4isDead == false)
+            if (No4SkillGage >= No4SKL - No4SKLc && No4isDead == false)
             {
                 Debug.Log("No4SKILL");
-                No4Skill();
-                No4SkillGage = 0;
+
+                for ( int k=0 ; e == 0; e++)
+                {
+                    No4Skill();
+                }
+                if (No4SkillGage > No4SKL-No4SKLc +4)
+                {
+                    No4SkillGage = 0;
+                    Debug.Log(No4SkillGage+"No4SkillGage");
+                    movieplayer.kkesu();
+                    e = 0;
+                }
             }
         }
         else if (partyisDead)
         {
             currentState = BattleState.PlayerDie;
         }
-        else if (EnemyHp < 0)
+        else if (EnemyHp <= 0)
         {
             currentState = BattleState.PlayerWin;
         }
@@ -342,6 +377,8 @@ public class BattleManager : MonoBehaviour
     {
         var Damage = PlayerATK + PlayerATKc - EnemyDEF;
         EnemyHp -= Damage;
+        currentState = BattleState.Wait;
+        StartCoroutine(SetDamageEffect(enemyobj, EnemyDamageText, Damage, EnemyActionImage, () => currentState = BattleState.PlayerBattle));
         //Debug.Log(Damage);
         //Debug.Log("Player attack");
         //Debug.Log(EnemyHp);
@@ -354,6 +391,8 @@ public class BattleManager : MonoBehaviour
         if (No2Interval >= No2SPD)
         {
             EnemyHp -= Damage;
+            currentState = BattleState.Wait;
+            StartCoroutine(SetDamageEffect(enemyobj, EnemyDamageText, Damage, EnemyActionImage, () => currentState = BattleState.PlayerBattle));
             //float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //StartCoroutine(Flashing());
             No3Interval = 0;
@@ -371,6 +410,8 @@ public class BattleManager : MonoBehaviour
         if (No3Interval >= No3SPD + 0.8)
         {
             EnemyHp -= Damage;
+            currentState = BattleState.Wait;
+            StartCoroutine(SetDamageEffect(enemyobj, EnemyDamageText, Damage, EnemyActionImage, () => currentState = BattleState.PlayerBattle));
             //float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //StartCoroutine(Flashing());
             No3Interval = 0;
@@ -392,6 +433,8 @@ public class BattleManager : MonoBehaviour
         {
             EnemyHp -= Damage;
             No4Interval = 0;
+            currentState = BattleState.Wait;
+            StartCoroutine(SetDamageEffect(enemyobj, EnemyDamageText, Damage, EnemyActionImage, () => currentState = BattleState.PlayerBattle));
             //var enemyobj = GameObject.Find("manticore");
             //float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
             //enemyobj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level);
@@ -413,7 +456,7 @@ public class BattleManager : MonoBehaviour
     private void EnemyAttack()
     {
         var attacktarget = Setattacktarget();
-        var Damage = EnemyATK - PlayerDEF + PlayerDEFc;
+        var Damage = EnemyATK - (PlayerDEF + PlayerDEFc);
         if (EnemyInterval >= EnemySPD + 0.7)
         {
             switch (attacktarget)
@@ -421,6 +464,8 @@ public class BattleManager : MonoBehaviour
                 case 1:
                     PlayerHp -= Damage;
                     var level = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                    currentState = BattleState.Wait;
+                    StartCoroutine(SetDamageEffect(no1obj, No1DamageText, Damage, No1ActionImage, () => currentState = BattleState.PlayerBattle));
                     //var no1obj = GameObject.Find("No1");
                     //no1obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level);
                     EnemyInterval = 0;
@@ -429,6 +474,8 @@ public class BattleManager : MonoBehaviour
                 case 2:
                     No2Hp -= Damage;
                     var level2 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                    currentState = BattleState.Wait;
+                    StartCoroutine(SetDamageEffect(no2obj, No2DamageText, Damage, No2ActionImage, () => currentState = BattleState.PlayerBattle));
                     //no2obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level2);
                     EnemyInterval = 0;
                     //Debug.Log(Damage);
@@ -436,6 +483,8 @@ public class BattleManager : MonoBehaviour
                 case 3:
                     No3Hp -= Damage;
                     float level3 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                    currentState = BattleState.Wait;
+                    StartCoroutine(SetDamageEffect(no3obj, No3DamageText, Damage, No3ActionImage, () => currentState = BattleState.PlayerBattle));
                     //No3obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level3);
                     EnemyInterval = 0;
                     //Debug.Log(Damage);
@@ -443,6 +492,8 @@ public class BattleManager : MonoBehaviour
                 case 4:
                     No4Hp -= Damage;
                     float level4 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                    currentState = BattleState.Wait;
+                    StartCoroutine(SetDamageEffect(no4obj, No4DamageText, Damage, No4ActionImage, () => currentState = BattleState.PlayerBattle));
                     //No4obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level4);
                     EnemyInterval = 0;
                     //Debug.Log(Damage);
@@ -460,30 +511,38 @@ public class BattleManager : MonoBehaviour
     private void EnemyBigAttack()
     {
         var attacktarget = Setattacktarget();
-        var Damage = 1.5f * EnemyATK - PlayerDEF + PlayerDEFc;
+        var Damage = 1.5f * EnemyATK - (PlayerDEF + PlayerDEFc);
         switch (attacktarget)
         {
             case 1:
                 PlayerHp -= Damage;
                 float level = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                currentState = BattleState.Wait;
+                StartCoroutine(SetDamageEffect(no1obj, No1DamageText, Damage, No1ActionImage, () => currentState = BattleState.PlayerBattle));
                 //no1obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level);
                 //Debug.Log(Damage);
                 break;
             case 2:
                 No2Hp -= Damage;
                 float level2 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                currentState = BattleState.Wait;
+                StartCoroutine(SetDamageEffect(no2obj, No2DamageText, Damage, No2ActionImage, () => currentState = BattleState.PlayerBattle));
                 //no2obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level2);
                 //Debug.Log(Damage);
                 break;
             case 3:
                 No3Hp -= Damage;
                 float level3 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                currentState = BattleState.Wait;
+                StartCoroutine(SetDamageEffect(no3obj, No3DamageText, Damage, No3ActionImage, () => currentState = BattleState.PlayerBattle));
                 //no3obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level3);
                 //Debug.Log(Damage);
                 break;
             case 4:
                 No4Hp -= Damage;
                 float level4 = Mathf.Abs(Mathf.Sin(Time.time * 10));
+                currentState = BattleState.Wait;
+                StartCoroutine(SetDamageEffect(no4obj, No4DamageText, Damage, No4ActionImage, () => currentState = BattleState.PlayerBattle));
                 //no4obj.GetComponent<SpriteRenderer>().color = new Color(1f, 1f, 1f, level4);
                 //Debug.Log(Damage);
                 break;
@@ -558,7 +617,12 @@ public class BattleManager : MonoBehaviour
     private void No3Skill(){}
 
     // No4
-    private void No4Skill(){}
+    private void No4Skill(){
+        movieplayer.kvido();
+        var Damage = 3 * (No4ATK + No4ATKc) - EnemyDEF;
+        currentState = BattleState.Wait;
+        StartCoroutine(SetDamageEffect(enemyobj, EnemyDamageText, Damage, EnemyActionImage, () => currentState = BattleState.PlayerBattle));
+    }
 
     /// <summary>
     /// 敵の攻撃目標を索敵.
@@ -593,7 +657,7 @@ public class BattleManager : MonoBehaviour
     // 点滅→使っていない
     private IEnumerator Flashing()
     {
-        var enemyobj = GameObject.Find("manticore");
+        //var enemyobj = GameObject.Find("manticore");
         while (Flash)
         {
             yield return new WaitForSeconds(1.0f);
@@ -636,5 +700,18 @@ public class BattleManager : MonoBehaviour
             SceneManager.LoadScene("ResultSceneGood");
 
         }
+    }
+
+    private IEnumerator SetDamageEffect(GameObject Object, Text text, float Damage,Image image, Action endCallBack){
+        Object.gameObject.SetActive(false);
+        text.text = ((int)Damage).ToString() + "ダメ";
+        image.gameObject.SetActive(true);
+        text.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.1f);
+        Object.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.5f);
+        text.gameObject.SetActive(false);
+        image.gameObject.SetActive(false);
+        endCallBack();
     }
 }

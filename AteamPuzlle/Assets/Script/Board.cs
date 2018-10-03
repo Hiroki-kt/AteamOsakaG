@@ -11,22 +11,36 @@ public class Board : MonoBehaviour {
 	// serialize field.
 	[SerializeField]
 	private GameObject piecePrefab;
-    [SerializeField]
-    private GameObject lightPrefab;
+    //[SerializeField]
+    //private GameObject lightPrefab;
     [SerializeField]
     private ParticleSystem effect;
     [SerializeField]
     private Camera effectCamera;
+    [SerializeField]
+    private Text ChainText;
+    [SerializeField]
+    private Text BaffText;
+    [SerializeField]
+    private Text ConboText;
+    [SerializeField]
+    private ParticleSystem BaffEffect;
+    [SerializeField]
+    private Text StartText;
+    [SerializeField]
+    private Text GoalText;
+    [SerializeField]
+    private Image MaskSuccess;
 
 
     // private.
     private Piece[,] board;
     private Piece[,] rotboard;
-    private GameManager gameManager;
+    //private GameManager gameManager;
 	private int width;
 	private int height;
 	private int pieceWidth;
-	private int randomSeed;
+	//private int randomSeed;
 	private List<Piece> removableBallList;
     private List<string> ColorList;
     private List<string> ColorTypeList;
@@ -38,8 +52,11 @@ public class Board : MonoBehaviour {
 	private Piece firstPiece;
     private string TF;
     private Vector2[] directions = new Vector2[] { Vector2.up, Vector2.down, Vector2.right, Vector2.left };
-
-
+    private int ConboCount = 0;
+    private int muchcount = 0;
+    private float lastoffbaff = 0;
+    private float lastdffbaff = 0;
+    private float lastsklbaff = 0;
 
     //-------------------------------------------------------
     // Public Function
@@ -174,8 +191,99 @@ public class Board : MonoBehaviour {
             if (piece != null && IsMatchPiece(piece))
             {
                 var pos = GetPieceBoardPos(piece);
+                var color = piece.GetKindColor();
+                var type = piece.GetKindType();
                 DestroyMatchPiece(pos, piece.GetKind());
                 yield return new WaitForSeconds(0.5f);
+
+                ConboCount += 1;
+                ConboText.text = ConboCount.ToString() + "Conbo";
+                //var conbotext = Instantiate(ConboText, GetPieceRealWorldPos(pos), Quaternion.identity);
+                //var canvas = GameObject.Find("Canvas").transform;
+                ConboText.gameObject.SetActive(true);
+                ConboText.transform.position = GetPieceRealWorldPos(pos);
+                yield return new WaitForSeconds(1f);
+                ConboText.gameObject.SetActive(false);
+
+                if (type == "Deffence"){
+                    var bafdf = muchcount * 10;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateDEF");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerDEFc += bafdf;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4DEFc += bafdf;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2DEFc += bafdf;
+                    }
+                    else
+                    {
+                        BattleManager.No3DEFc += bafdf;
+                    }
+                    lastoffbaff += bafdf;
+
+                }
+                else if (type == "Offence")
+                {
+                    var bafof = muchcount * 10;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateOff");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerATKc += bafof;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4ATKc += bafof;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2ATKc += bafof;
+                    }
+                    else
+                    {
+                        BattleManager.No3ATKc += bafof;
+                    }
+                    lastoffbaff += bafof;
+                }
+                else if(type == "Skill")
+                {
+                    var skl = muchcount;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateDEF");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerSKLc -= skl;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4SKLc -= skl;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2SKLc -= skl;
+                    }
+                    else
+                    {
+                        BattleManager.No3SKLc -= skl;
+                    }
+                    lastsklbaff += skl;
+                }                
+                //conbotext.transform.SetParent(canvas);
             }
         }
 
@@ -199,7 +307,8 @@ public class Board : MonoBehaviour {
 	// 回転
     // 初期座標の調整が本来は必要
     public IEnumerator Rotation(float rot, Action endCallBack){
-        
+        BaffEffect.gameObject.SetActive(false);
+
         // 回転します。ボードごと回転。
         float speed =1f;
         float step = speed * Time.deltaTime;
@@ -225,6 +334,7 @@ public class Board : MonoBehaviour {
             {
                 RotationPiece(new Vector2 (i,j));
                 board[i, j].transform.rotation = Quaternion.Euler(0, 0, 0);
+                board[i, j].SetPieceAlpha(1.0f);
             }
         }
         board = rotboard;
@@ -283,16 +393,43 @@ public class Board : MonoBehaviour {
             //Debug.Log(GetCalulationSkiNotColor());
         }
 
+    }
 
-
+    public IEnumerator SetIdleMode(Action endCallBack){
+        StartText.gameObject.SetActive(false);
+        GoalText.gameObject.SetActive(false);
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i, j].SetPieceAlpha(1.0f);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        endCallBack();
     }
 
 
-
-		
 	//---------------------------------------------------------
 	// Public  なぞり動作
 	//---------------------------------------------------------
+    public IEnumerator SetTrackingMode(Action endCallBack){
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i, j].SetPieceAlpha(0.5f);
+            }
+        }
+        yield return new WaitForSeconds(0.3f);
+        board[5, 5].SetPieceAlpha(1.0f);
+        StartText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        board[0, 0].SetPieceAlpha(1.0f);
+        GoalText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        endCallBack();
+    }
 
 	public void OnDragStart(Piece piece) {
 		//var col = piece;
@@ -336,9 +473,15 @@ public class Board : MonoBehaviour {
 
     // スタートとゴールの値があったら、消すそれ以外は戻す
 	public IEnumerator OnDragEnd(Action endCallBack) {
-		if (firstPiece != null) {
-			//1つ以上のボールをなぞっているとき
-			var length = removableBallList.Count;
+        //1つ以上のボールをなぞっているとき
+        var length = removableBallList.Count;
+        if (firstPiece != null) {
+            //音ならしたい
+            MaskSuccess.gameObject.SetActive(true);
+            StartText.gameObject.SetActive(false);
+            GoalText.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            MaskSuccess.gameObject.SetActive(false);
 			for (var i = 0; i < length; i++) {
                 var pos = effectCamera.ScreenToWorldPoint(removableBallList[i].transform.position + effectCamera.transform.forward * 10);
                 effect.transform.position = pos;
@@ -349,7 +492,12 @@ public class Board : MonoBehaviour {
 			
 			firstPiece = null; //変数の初期化
 		}
-
+        ChainText.gameObject.SetActive(true);
+        ChainText.text = length.ToString() + "Chain";
+        yield return new WaitForSeconds(2f);
+        BaffEffect.Emit(1);
+        BaffEffect.gameObject.SetActive(true);
+        ChainText.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
         endCallBack();
 	}
@@ -358,7 +506,7 @@ public class Board : MonoBehaviour {
     {
         for (var j = 0; j < removableBallList.Count;j++){
             var listedBall = removableBallList[j];
-            listedBall.SetPieceAlpha(1.0f);
+            listedBall.SetPieceAlpha(0.5f);
         }
 
     }
@@ -378,6 +526,25 @@ public class Board : MonoBehaviour {
         }
         return TF;
     }
+
+    public IEnumerator ViewBaff(Action endCallBack){
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Offence" + lastoffbaff.ToString() + "UP!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Deffence" + lastdffbaff.ToString() + "UP!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Skill Time" + lastsklbaff.ToString() + "DOWN!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        endCallBack();
+    }
+
     //-------------------------------------------------------
     // Private Function
     //-------------------------------------------------------
@@ -406,6 +573,8 @@ public class Board : MonoBehaviour {
         //Debug.Log(piece.transform.position);
 	
 	}
+
+    /*
     private void CreateLight(Piece piece){
         // ピースの生成位置を求める
         var lightpos = piece.transform.position;
@@ -414,6 +583,7 @@ public class Board : MonoBehaviour {
         //var light = Instantiate(lightPrefab, lightpos, Quaternion.identity).GetComponent<LensFlare>();
         Instantiate(lightPrefab, lightpos, Quaternion.identity);
     }
+    */
 
 	// 盤面上の位置からピースオブジェクトのワールド座標での位置を返す
 	private Vector3 GetPieceWorldPos(Vector2 boardPos)
@@ -532,7 +702,7 @@ public class Board : MonoBehaviour {
 	private void PushToList(Piece obj, string color, string type) {
 		LastPiece = obj;
 		// 色半透明に変更
-		obj.SetPieceAlpha (0.5f);
+		obj.SetPieceAlpha (1.0f);
 		removableBallList.Add(obj);
         ColorList.Add(color);
         TypeList.Add(type);
@@ -587,7 +757,8 @@ public class Board : MonoBehaviour {
         }
         else{
             BattleManager.No3ATKc += bafof;
-        }  
+        }
+        lastoffbaff += bafof;
     }
 
     private void GetCalulationDef()
@@ -613,6 +784,7 @@ public class Board : MonoBehaviour {
         {
             BattleManager.No3DEFc += bafdf;
         }
+        lastdffbaff += bafdf;
 
     }
 
@@ -639,7 +811,7 @@ public class Board : MonoBehaviour {
         {
             BattleManager.No3SKLc -= skl;
         }
-       
+        lastsklbaff += skl;
     }
 
     private void GetCalulationOffNotColor()
@@ -665,7 +837,7 @@ public class Board : MonoBehaviour {
         {
             BattleManager.No3ATKc += bafof;
         }
-
+        lastoffbaff += bafof;
     }
 
     private void GetCalulationDefNotColor()
@@ -691,6 +863,7 @@ public class Board : MonoBehaviour {
         {
             BattleManager.No3DEFc += bafdf;
         }
+        lastdffbaff += bafdf;
     }
 
     private void GetCalulationSkiNotColor()
@@ -716,6 +889,7 @@ public class Board : MonoBehaviour {
         {
             BattleManager.No3SKLc -= skl;
         }
+        lastsklbaff += skl;
     }
 
     // 特定のピースがマッチしている場合、ほかのマッチしたピースとともに削除する
@@ -749,6 +923,7 @@ public class Board : MonoBehaviour {
 
         // ピースを削除する
         Destroy(piece.gameObject);
+        muchcount += 1;
     }
 
 }

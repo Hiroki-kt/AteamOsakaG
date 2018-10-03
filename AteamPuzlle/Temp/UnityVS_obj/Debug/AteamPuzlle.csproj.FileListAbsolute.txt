@@ -1,3 +1,5 @@
+/Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/AteamPuzlle.csprojAssemblyReference.cache
+/Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/AteamPuzlle.csproj.CoreCompileInputs.cache
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/Assembly-CSharp.dll
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/Assembly-CSharp.pdb
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/Boo.Lang.dll
@@ -206,8 +208,6 @@
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/UnityEditor.iOS.Extensions.Xcode.dll.mdb
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/UnityEditor.iOS.Extensions.Common.dll.mdb
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_bin/Debug/Unity.UNetWeaver.dll.mdb
-/Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/AteamPuzlle.csprojAssemblyReference.cache
-/Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/AteamPuzlle.csproj.CoreCompileInputs.cache
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/AteamPuzlle.csproj.CopyComplete
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/Assembly-CSharp.dll
 /Users/hiroki-kt/Desktop/git/Ateam/AteamPuzlle/Temp/UnityVS_obj/Debug/Assembly-CSharp.pdb

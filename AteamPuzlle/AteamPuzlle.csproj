@@ -290,8 +290,11 @@
     <Compile Include="Assets\animation\Anima2D\Scripts\SpriteMeshAnimation.cs" />
     <Compile Include="Assets\animation\Anima2D\Scripts\SpriteMeshInstance.cs" />
     <Compile Include="Assets\animation\k\k\beeani.cs" />
+    <Compile Include="Assets\animation\k\k\Blinker.cs" />
     <Compile Include="Assets\animation\k\k\enemyani.cs" />
     <Compile Include="Assets\animation\k\k\kani.cs" />
+    <Compile Include="Assets\movieplayer.cs" />
+    <Compile Include="Assets\mplayer.cs" />
     <Compile Include="Assets\Script\Attack.cs" />
     <Compile Include="Assets\Script\BackMenu.cs" />
     <Compile Include="Assets\Script\BaseCharaStatus.cs" />

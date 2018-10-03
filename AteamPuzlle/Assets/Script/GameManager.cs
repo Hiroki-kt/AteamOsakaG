@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
         DeleteTracingPiece,
         TimeOver,
         Wait,
+        TracingSet,
+        IdleSet,
     }
 
     // serialize field.
@@ -46,9 +48,6 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Image _imageMask;
 
-
-
-
     // private.
     private GameState currentState;
     private Piece selectedPiece;
@@ -61,6 +60,8 @@ public class GameManager : MonoBehaviour
     public Button Pass;
     private const float SelectedPieceAlpha = 0.5f;
     private GameObject selectedPieceObject;
+    //private GameObject _pas = GameObject.Find("Pas");
+    //private GameObject _trac = GameObject.Find("Trac");
 
     //float step;
     //float speed = 1f;
@@ -132,7 +133,14 @@ public class GameManager : MonoBehaviour
                         DeleteTracingPiece();
                         break;
                     case GameState.Wait:
+                        Wait();
                         turnTime = TurnTime;
+                        break;
+                    case GameState.TracingSet:
+                        TracingSet();
+                        break;
+                    case GameState.IdleSet:
+                        IdleSet();
                         break;
                     default:
                         break;
@@ -168,6 +176,8 @@ public class GameManager : MonoBehaviour
     // t → なぞりモードい以降
     private void Idle()
     {
+        Pass.gameObject.SetActive(true);
+        Trac.gameObject.SetActive(true);
         if (Input.GetKeyDown(KeyCode.A))
         {
             currentState = GameState.MatchCheck;
@@ -213,7 +223,7 @@ public class GameManager : MonoBehaviour
                 }
                 else
                 {
-                    selectedPiece.SetPieceAlpha(1f);
+                    //selectedPiece.SetPieceAlpha(1f);
                     //Destroy(selectedPieceObject);
                     currentState = GameState.Idle;
                 }
@@ -222,7 +232,7 @@ public class GameManager : MonoBehaviour
         }
         else if (Input.GetMouseButtonUp(0))
         {
-            selectedPiece.SetPieceAlpha(1f);
+            //selectedPiece.SetPieceAlpha(1f);
             //Destroy(selectedPieceObject);
             currentState = GameState.Idle;
         }
@@ -237,8 +247,9 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            Debug.Log("rot");
-            currentState = GameState.Rotation;
+            //Debug.Log("rot");
+            currentState = GameState.Wait;
+            StartCoroutine(board.ViewBaff(() => currentState = GameState.Rotation));
         }
     }
 
@@ -258,6 +269,8 @@ public class GameManager : MonoBehaviour
         }
         else if (board.GetStartGoal() == "False")
         {
+            Pass.gameObject.SetActive(true);
+            Trac.gameObject.SetActive(true);
             board.OnDragEndNG();
             currentState = GameState.TracingIdle;
         }
@@ -323,6 +336,8 @@ public class GameManager : MonoBehaviour
     // 初期化ボタン作成
     private void TracingIdle()
     {
+        Pass.gameObject.SetActive(true);
+        Trac.gameObject.SetActive(true);
         if (Input.GetKeyDown(KeyCode.G))
         {
             currentState = GameState.DeleteTracingPiece;
@@ -368,6 +383,8 @@ public class GameManager : MonoBehaviour
 
         countRotaion += 1.0f;
         turnTime = TurnTime; // 制限時間初期化
+        Pass.gameObject.SetActive(true);
+        Trac.gameObject.SetActive(true);
         currentState = GameState.Idle;
     }
 
@@ -375,10 +392,10 @@ public class GameManager : MonoBehaviour
     {
         if(currentState == GameState.PieceMove || currentState == GameState.Idle){
             Debug.Log("trac");
-            currentState = GameState.TracingIdle;
+            currentState = GameState.TracingSet;
         }else{
             Debug.Log("exchange");
-            currentState = GameState.Idle;
+            currentState = GameState.IdleSet;
         }
     }
 
@@ -436,7 +453,7 @@ public class GameManager : MonoBehaviour
 
         currentState = GameState.Idle;
 
-        Trac = GetComponent<Button>();
+        //Trac = GetComponent<Button>();
         //Trac.onClick.AddListener(TracClick());
 
         GameTime = AllTime;
@@ -479,5 +496,20 @@ public class GameManager : MonoBehaviour
 
     public float GetRollCount(){
         return countRotaion;
+    }
+
+    private void Wait(){
+        Pass.gameObject.SetActive(false);
+        Trac.gameObject.SetActive(false);
+    }
+
+    private void TracingSet(){
+        currentState = GameState.Wait;
+        StartCoroutine(board.SetTrackingMode(() => currentState = GameState.TracingIdle));
+    }
+
+    private void IdleSet(){
+        currentState = GameState.Wait;
+        StartCoroutine(board.SetIdleMode(() => currentState = GameState.Idle));
     }
 }
