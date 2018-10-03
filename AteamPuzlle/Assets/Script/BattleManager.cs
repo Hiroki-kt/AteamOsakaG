@@ -99,11 +99,11 @@ public class BattleManager : MonoBehaviour
     private float No2SKL;
     private float No3SKL;
     private float No4SKL;
-    private bool PlayerisDead = false;
-    private bool No2isDead = false;
-    private bool No3isDead = false;
-    private bool No4isDead = false;
-    private bool partyisDead = false;
+    public static bool PlayerisDead = false;
+    public static bool No2isDead = false;
+    public static bool No3isDead = false;
+    public static bool No4isDead = false;
+    public static bool partyisDead = false;
     public static float attackanim;
     public GameObject prefab;
     public GameObject prefab2;
@@ -352,6 +352,7 @@ public class BattleManager : MonoBehaviour
         }
         else if (EnemyHp <= 0)
         {
+            enemyobj.gameObject.SetActive(false);
             currentState = BattleState.PlayerWin;
         }
     }
@@ -702,6 +703,8 @@ public class BattleManager : MonoBehaviour
         }
     }
 
+    // ダメージ全般
+    // 音入れる
     private IEnumerator SetDamageEffect(GameObject Object, Text text, float Damage,Image image, Action endCallBack){
         Object.gameObject.SetActive(false);
         text.text = ((int)Damage).ToString() + "ダメ";

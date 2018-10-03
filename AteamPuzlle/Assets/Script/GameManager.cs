@@ -17,6 +17,12 @@ public class GameManager : MonoBehaviour
     public static float AllTime = 300;
     public static float TurnTime = 60;
 
+    public  AudioSource audioSource;
+    public AudioClip sound01;
+    public int sound1 = 0;
+    public AudioClip sound02;
+    public int sound2 = 0;
+
     // enum.
     private enum GameState
     {
@@ -47,6 +53,11 @@ public class GameManager : MonoBehaviour
     private Text _textCountdown;
     [SerializeField]
     private Image _imageMask;
+
+    public GameObject batu1;
+    public GameObject batu2;
+    public GameObject batu3;
+    public GameObject batu4;
 
     // private.
     private GameState currentState;
@@ -80,6 +91,7 @@ public class GameManager : MonoBehaviour
         // カウントダウン表示
         StartCoroutine(CountdownCoroutine(() => StartBoard()));
 
+       
     }
 
     // ゲームのメインループ
@@ -90,7 +102,26 @@ public class GameManager : MonoBehaviour
         if (GameTime < 0) GameTime = 0;
         if (turnTime < 0) turnTime = 0;
         //Debug.Log(GameTime);
+        if(BattleManager.PlayerisDead){
+            batu1.gameObject.SetActive(true);
+        }
+        if (BattleManager.No2isDead)
+        {
+            batu2.gameObject.SetActive(true);
+        }
+        if (BattleManager.No3isDead)
+        {
+            batu3.gameObject.SetActive(true);
+        }
+        if (BattleManager.No4isDead)
+        {
+            batu4.gameObject.SetActive(true);
+        }
 
+        if (sound1 == 1) {
+            audioSource.PlayOneShot(sound01);
+            sound1 = 0;
+        }
 
         if (GameTime > 0)
         {
@@ -218,7 +249,8 @@ public class GameManager : MonoBehaviour
                 {
                     board.SwitchPiece(selectedPiece, piece);
                     countMove += 1;
-                    //Debug.Log("OK");
+                    sound1 = 1;
+                    // Debug.Log("OK");
                     //selectedPieceObject.transform.position = Input.mousePosition + Vector3.up * 10;
                 }
                 else

@@ -58,6 +58,13 @@ public class Board : MonoBehaviour {
     private float lastdffbaff = 0;
     private float lastsklbaff = 0;
 
+    public AudioSource audioSource;
+    public AudioClip sound01;
+    public AudioClip sound02;
+    public AudioClip sound03;
+    public AudioClip sound04;
+    public AudioClip baf;
+
     //-------------------------------------------------------
     // Public Function
     //-------------------------------------------------------
@@ -321,6 +328,9 @@ public class Board : MonoBehaviour {
             transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
             target2.transform.rotation = Quaternion.Slerp(target2.transform.rotation, Quaternion.Euler(0, 0, rot), step);
             //Debug.Log(transform.rotation);
+
+            audioSource.PlayOneShot(sound03);
+
             yield return new WaitForSeconds(0.0003f);
         }
         // */
@@ -460,6 +470,9 @@ public class Board : MonoBehaviour {
                         if(removableBallList.Any(x => x == piece) == false){
                             //ボール間の距離が一定値以下のとき
                             PushToList(piece, piececolor, piecetype); //消去するリストにボールを追加
+
+                            audioSource.PlayOneShot(sound01);
+
                             //CreateLight(piece);
                             currentType = piecetype;
                             currentColor = piececolor;
@@ -477,6 +490,9 @@ public class Board : MonoBehaviour {
         var length = removableBallList.Count;
         if (firstPiece != null) {
             //音ならしたい
+
+            audioSource.PlayOneShot(sound04);
+
             MaskSuccess.gameObject.SetActive(true);
             StartText.gameObject.SetActive(false);
             GoalText.gameObject.SetActive(false);
@@ -487,6 +503,9 @@ public class Board : MonoBehaviour {
                 effect.transform.position = pos;
                 effect.Emit(1);
                 Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
+
+                audioSource.PlayOneShot(sound02);
+
                 yield return new WaitForSeconds(0.1f);
             }
 			
@@ -496,6 +515,9 @@ public class Board : MonoBehaviour {
         ChainText.text = length.ToString() + "Chain";
         yield return new WaitForSeconds(2f);
         BaffEffect.Emit(1);
+
+        audioSource.PlayOneShot(baf);
+
         BaffEffect.gameObject.SetActive(true);
         ChainText.gameObject.SetActive(false);
         yield return new WaitForSeconds(1f);
@@ -527,6 +549,8 @@ public class Board : MonoBehaviour {
         return TF;
     }
 
+    // UIでテキストをつける
+    // 背景入れる
     public IEnumerator ViewBaff(Action endCallBack){
         BaffText.gameObject.SetActive(true);
         BaffText.text = "Offence" + lastoffbaff.ToString() + "UP!!";
