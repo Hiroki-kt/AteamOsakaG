@@ -1,0 +1,341 @@
+fileFormatVersion: 2
+guid: ea37a5c10a569514c9689b5e1672de70
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: "hati - \u30B3\u30D4\u30FC_0"
+    21300002: "hati - \u30B3\u30D4\u30FC_1"
+    21300004: "hati - \u30B3\u30D4\u30FC_2"
+    21300006: "hati - \u30B3\u30D4\u30FC_3"
+    21300008: "hati - \u30B3\u30D4\u30FC_4"
+    21300010: "hati - \u30B3\u30D4\u30FC_5"
+    21300012: "hati - \u30B3\u30D4\u30FC_6"
+    21300014: "hati - \u30B3\u30D4\u30FC_7"
+    21300016: "hati - \u30B3\u30D4\u30FC_8"
+    21300018: "hati - \u30B3\u30D4\u30FC_9"
+    21300020: "hati - \u30B3\u30D4\u30FC_10"
+    21300022: "hati - \u30B3\u30D4\u30FC_11"
+    21300024: "hati - \u30B3\u30D4\u30FC_12"
+    21300026: "hati - \u30B3\u30D4\u30FC_13"
+    21300028: "hati - \u30B3\u30D4\u30FC_14"
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_0"
+      rect:
+        serializedVersion: 2
+        x: 184
+        y: 2422.5986
+        width: 244.82883
+        height: 446.4502
+      alignment: 9
+      pivot: {x: 0.49830735, y: 0.5003948}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_1"
+      rect:
+        serializedVersion: 2
+        x: 623.99994
+        y: 2278.6223
+        width: 586.26715
+        height: 568.8867
+      alignment: 9
+      pivot: {x: 0.49891952, y: 0.49900565}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_2"
+      rect:
+        serializedVersion: 2
+        x: 1426
+        y: 2403.6018
+        width: 249.15076
+        height: 439.24805
+      alignment: 9
+      pivot: {x: 0.49769115, y: 0.5006248}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_3"
+      rect:
+        serializedVersion: 2
+        x: 607
+        y: 1751.7095
+        width: 119.49072
+        height: 192.93457
+      alignment: 9
+      pivot: {x: 0.4937627, y: 0.49649295}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_4"
+      rect:
+        serializedVersion: 2
+        x: 965.99994
+        y: 1729.713
+        width: 319.74347
+        height: 312.49023
+      alignment: 9
+      pivot: {x: 0.49727383, y: 0.500134}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_5"
+      rect:
+        serializedVersion: 2
+        x: 1614.9998
+        y: 1863.6909
+        width: 116.60962
+        height: 217.42188
+      alignment: 9
+      pivot: {x: 0.4930993, y: 0.5004514}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_6"
+      rect:
+        serializedVersion: 2
+        x: 460
+        y: 1355.7749
+        width: 177.11743
+        height: 239.02832
+      alignment: 9
+      pivot: {x: 0.49402252, y: 0.4966989}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_7"
+      rect:
+        serializedVersion: 2
+        x: 937
+        y: 1192.802
+        width: 407.62427
+        height: 396.03516
+      alignment: 9
+      pivot: {x: 0.49800795, y: 0.49793082}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_8"
+      rect:
+        serializedVersion: 2
+        x: 1686
+        y: 1484.7537
+        width: 177.11743
+        height: 241.90918
+      alignment: 9
+      pivot: {x: 0.4940232, y: 0.49913964}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_9"
+      rect:
+        serializedVersion: 2
+        x: 216
+        y: 829.86194
+        width: 122.3721
+        height: 308.16895
+      alignment: 9
+      pivot: {x: 0.494394, y: 0.4969291}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_10"
+      rect:
+        serializedVersion: 2
+        x: 617
+        y: 826.86237
+        width: 207.37152
+        height: 312.4903
+      alignment: 9
+      pivot: {x: 0.49669337, y: 0.4980559}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_11"
+      rect:
+        serializedVersion: 2
+        x: 955
+        y: 928.8456
+        width: 397.53967
+        height: 171.32812
+      alignment: 9
+      pivot: {x: 0.4980638, y: 0.49702567}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_12"
+      rect:
+        serializedVersion: 2
+        x: 191.99998
+        y: 345.94196
+        width: 161.27013
+        height: 270.71777
+      alignment: 9
+      pivot: {x: 0.49296182, y: 0.49704188}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_13"
+      rect:
+        serializedVersion: 2
+        x: 754
+        y: 355.9403
+        width: 169.91412
+        height: 288.00293
+      alignment: 9
+      pivot: {x: 0.49436772, y: 0.49672997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: "hati - \u30B3\u30D4\u30FC_14"
+      rect:
+        serializedVersion: 2
+        x: 1222
+        y: 159.97272
+        width: 981.01
+        height: 555.92285
+      alignment: 9
+      pivot: {x: 0.49897555, y: 0.49831972}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 100770392440832
+  assetBundleName: 
+  assetBundleVariant: 

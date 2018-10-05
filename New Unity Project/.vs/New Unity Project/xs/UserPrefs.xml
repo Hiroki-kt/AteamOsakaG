@@ -1,0 +1,18 @@
+﻿<Properties StartupConfiguration="{BFD958C4-5209-89E8-D1A0-F25854A4DC74}|">
+  <MonoDevelop.Ide.Workbench ActiveDocument="Assets/NewBehaviourScript.cs">
+    <Files>
+      <File FileName="Assets/Script/GameManager.cs" Line="1" Column="1" />
+      <File FileName="Assets/Script/Board.cs" Line="331" Column="45" />
+      <File FileName="Assets/Script/BattleManager.cs" Line="632" Column="6" />
+      <File FileName="Assets/movieplayer.cs" Line="51" Column="23" />
+      <File FileName="Assets/NewBehaviourScript.cs" Line="13" Column="2" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.ItemProperties.New_220Unity_220Project PreferredExecutionTarget="Unity.Editor" />
+  <MultiItemStartupConfigurations />
+</Properties>

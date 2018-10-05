@@ -1,0 +1,536 @@
+fileFormatVersion: 2
+guid: dc50564cd4ba52349babf7c9bd604491
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: kuwagata_0
+    21300002: kuwagata_1
+    21300004: kuwagata_2
+    21300006: kuwagata_3
+    21300008: kuwagata_4
+    21300010: kuwagata_5
+    21300012: kuwagata_6
+    21300014: kuwagata_7
+    21300016: kuwagata_8
+    21300018: kuwagata_9
+    21300020: kuwagata_10
+    21300022: kuwagata_11
+    21300024: kuwagata_12
+    21300026: kuwagata_13
+    21300028: kuwagata_14
+    21300030: kuwagata_15
+    21300032: kuwagata_16
+    21300034: kuwagata_17
+    21300036: kuwagata_18
+    21300038: kuwagata_19
+    21300040: kuwagata_20
+    21300042: kuwagata_21
+    21300044: kuwagata_22
+    21300046: kuwagata_23
+    21300048: kuwagata_24
+    21300050: kuwagata_25
+    21300052: kuwagata_26
+    21300054: kuwagata_27
+    21300056: kuwagata_28
+    21300058: kuwagata_29
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: kuwagata_0
+      rect:
+        serializedVersion: 2
+        x: 111.96341
+        y: 3160
+        width: 127.53549
+        height: 305.65967
+      alignment: 9
+      pivot: {x: 0.49034658, y: 0.4972859}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_1
+      rect:
+        serializedVersion: 2
+        x: 534.8312
+        y: 3158
+        width: 139.6347
+        height: 238.22852
+      alignment: 9
+      pivot: {x: 0.49535552, y: 0.49742258}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_2
+      rect:
+        serializedVersion: 2
+        x: 1443.5468
+        y: 3276.0002
+        width: 49.98767
+        height: 49
+      alignment: 9
+      pivot: {x: 0.50919294, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_3
+      rect:
+        serializedVersion: 2
+        x: 1696.4677
+        y: 3295
+        width: 35.992065
+        height: 18
+      alignment: 9
+      pivot: {x: 0.514901, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_4
+      rect:
+        serializedVersion: 2
+        x: 1986.3771
+        y: 3248.0002
+        width: 177.66101
+        height: 132.75928
+      alignment: 9
+      pivot: {x: 0.49883297, y: 0.49337235}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_5
+      rect:
+        serializedVersion: 2
+        x: 2217.305
+        y: 3249.0002
+        width: 153.4624
+        height: 132.75928
+      alignment: 9
+      pivot: {x: 0.49650642, y: 0.49713856}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_6
+      rect:
+        serializedVersion: 2
+        x: 115.962135
+        y: 2494.0002
+        width: 583.8498
+        height: 495.8501
+      alignment: 9
+      pivot: {x: 0.49848077, y: 0.4981344}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_7
+      rect:
+        serializedVersion: 2
+        x: 797.74884
+        y: 2479
+        width: 393.7188
+        height: 667.0215
+      alignment: 9
+      pivot: {x: 0.498455, y: 0.4984847}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_8
+      rect:
+        serializedVersion: 2
+        x: 1264.6029
+        y: 2560
+        width: 201.85925
+        height: 305.65967
+      alignment: 9
+      pivot: {x: 0.4973625, y: 0.4972851}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_9
+      rect:
+        serializedVersion: 2
+        x: 1682.472
+        y: 2553
+        width: 182.84644
+        height: 309.11768
+      alignment: 9
+      pivot: {x: 0.4978383, y: 0.49657464}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_10
+      rect:
+        serializedVersion: 2
+        x: 2019.3666
+        y: 2507.0002
+        width: 317.66663
+        height: 414.5869
+      alignment: 9
+      pivot: {x: 0.49937072, y: 0.49688014}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_11
+      rect:
+        serializedVersion: 2
+        x: 100.96683
+        y: 1514
+        width: 416.18887
+        height: 876.23096
+      alignment: 9
+      pivot: {x: 0.49865147, y: 0.49872696}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_12
+      rect:
+        serializedVersion: 2
+        x: 607.8083
+        y: 1649
+        width: 388.5335
+        height: 620.3384
+      alignment: 9
+      pivot: {x: 0.49851996, y: 0.49811545}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_13
+      rect:
+        serializedVersion: 2
+        x: 1153.6376
+        y: 2197
+        width: 184.5747
+        height: 245.14453
+      alignment: 9
+      pivot: {x: 0.4976985, y: 0.49562702}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_14
+      rect:
+        serializedVersion: 2
+        x: 1684.4713
+        y: 2126
+        width: 150.00574
+        height: 217.48047
+      alignment: 9
+      pivot: {x: 0.4968389, y: 0.49659744}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_15
+      rect:
+        serializedVersion: 2
+        x: 2009.3698
+        y: 2065
+        width: 393.71887
+        height: 348.88477
+      alignment: 9
+      pivot: {x: 0.50068784, y: 0.498732}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_16
+      rect:
+        serializedVersion: 2
+        x: 1113.6501
+        y: 1661
+        width: 103.336914
+        height: 395.56787
+      alignment: 9
+      pivot: {x: 0.49691802, y: 0.49801818}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_17
+      rect:
+        serializedVersion: 2
+        x: 1442.5471
+        y: 1713.0001
+        width: 80.86694
+        height: 359.25867
+      alignment: 9
+      pivot: {x: 0.494057, y: 0.49685648}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_18
+      rect:
+        serializedVersion: 2
+        x: 1898.4045
+        y: 1429
+        width: 158.64795
+        height: 404.2129
+      alignment: 9
+      pivot: {x: 0.4985604, y: 0.4984997}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_19
+      rect:
+        serializedVersion: 2
+        x: 2195.3118
+        y: 1442
+        width: 213.9585
+        height: 381.73584
+      alignment: 9
+      pivot: {x: 0.49630296, y: 0.4964169}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_20
+      rect:
+        serializedVersion: 2
+        x: 349.88898
+        y: 916
+        width: 200.13098
+        height: 468.18604
+      alignment: 9
+      pivot: {x: 0.4977293, y: 0.49766567}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_21
+      rect:
+        serializedVersion: 2
+        x: 590.8136
+        y: 961
+        width: 267.54102
+        height: 395.56787
+      alignment: 9
+      pivot: {x: 0.4959479, y: 0.49675387}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_22
+      rect:
+        serializedVersion: 2
+        x: 1155.637
+        y: 950.00006
+        width: 148.27698
+        height: 416.31598
+      alignment: 9
+      pivot: {x: 0.49477023, y: 0.4984193}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_23
+      rect:
+        serializedVersion: 2
+        x: 1324.5841
+        y: 1032.0001
+        width: 284.82568
+        height: 329.86572
+      alignment: 9
+      pivot: {x: 0.49825525, y: 0.49717197}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_24
+      rect:
+        serializedVersion: 2
+        x: 1836.4238
+        y: 1033.0001
+        width: 174.20398
+        height: 297.01465
+      alignment: 9
+      pivot: {x: 0.4969809, y: 0.4982919}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_25
+      rect:
+        serializedVersion: 2
+        x: 2245.2961
+        y: 1047
+        width: 177.66089
+        height: 297.01465
+      alignment: 9
+      pivot: {x: 0.49928886, y: 0.4966085}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_26
+      rect:
+        serializedVersion: 2
+        x: 133.95653
+        y: 95.99999
+        width: 608.0483
+        height: 729.2656
+      alignment: 9
+      pivot: {x: 0.49838716, y: 0.49913225}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_27
+      rect:
+        serializedVersion: 2
+        x: 857.7301
+        y: 126.000015
+        width: 559.65125
+        height: 589.2163
+      alignment: 9
+      pivot: {x: 0.49990043, y: 0.49811918}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_28
+      rect:
+        serializedVersion: 2
+        x: 1511.5255
+        y: 63.000015
+        width: 253.71338
+        height: 722.3496
+      alignment: 9
+      pivot: {x: 0.49849355, y: 0.49906582}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: kuwagata_29
+      rect:
+        serializedVersion: 2
+        x: 1791.438
+        y: 79
+        width: 685.8291
+        height: 495.8501
+      alignment: 9
+      pivot: {x: 0.500215, y: 0.4981344}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 100761507987456
+  assetBundleName: 
+  assetBundleVariant: 

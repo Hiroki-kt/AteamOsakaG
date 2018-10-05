@@ -1,0 +1,311 @@
+fileFormatVersion: 2
+guid: 0339633406a9f2446bfed5daf9cd3b9d
+TextureImporter:
+  fileIDToRecycleName:
+    21300000: tonbo_0
+    21300002: tonbo_1
+    21300004: tonbo_2
+    21300006: tonbo_3
+    21300008: tonbo_4
+    21300010: tonbo_5
+    21300012: tonbo_6
+    21300014: tonbo_7
+    21300016: tonbo_8
+    21300018: tonbo_9
+    21300020: tonbo_10
+    21300022: tonbo_11
+    21300024: tonbo_12
+  externalObjects: {}
+  serializedVersion: 4
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+  isReadable: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: -1
+    aniso: -1
+    mipBias: -1
+    wrapU: 1
+    wrapV: 1
+    wrapW: -1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  platformSettings:
+  - buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: iPhone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: Android
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  - buildTarget: WebGL
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    androidETC2FallbackOverride: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: tonbo_0
+      rect:
+        serializedVersion: 2
+        x: 913.7663
+        y: 1508
+        width: 622.30475
+        height: 639.6094
+      alignment: 9
+      pivot: {x: 0.5001305, y: 0.49952346}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_1
+      rect:
+        serializedVersion: 2
+        x: 1979.4954
+        y: 1472
+        width: 79.802734
+        height: 192.51318
+      alignment: 9
+      pivot: {x: 0.49502861, y: 0.49606928}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_2
+      rect:
+        serializedVersion: 2
+        x: 527.86444
+        y: 1156
+        width: 199.81445
+        height: 241.51001
+      alignment: 9
+      pivot: {x: 0.4986404, y: 0.4968743}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_3
+      rect:
+        serializedVersion: 2
+        x: 886.7732
+        y: 1175
+        width: 130.01172
+        height: 219.46143
+      alignment: 9
+      pivot: {x: 0.49785364, y: 0.49667042}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_4
+      rect:
+        serializedVersion: 2
+        x: 1345.6565
+        y: 1038
+        width: 283.0879
+        height: 375.0265
+      alignment: 9
+      pivot: {x: 0.49929196, y: 0.49863145}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_5
+      rect:
+        serializedVersion: 2
+        x: 1818.5361
+        y: 1081
+        width: 136.13477
+        height: 225.58606
+      alignment: 9
+      pivot: {x: 0.4992387, y: 0.49648458}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_6
+      rect:
+        serializedVersion: 2
+        x: 2141.454
+        y: 1082
+        width: 186.34375
+        height: 261.10876
+      alignment: 9
+      pivot: {x: 0.49932396, y: 0.49787682}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_7
+      rect:
+        serializedVersion: 2
+        x: 212.9446
+        y: 188.99997
+        width: 644.34766
+        height: 830.6969
+      alignment: 9
+      pivot: {x: 0.49904025, y: 0.49958056}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_8
+      rect:
+        serializedVersion: 2
+        x: 982.74884
+        y: 390.99997
+        width: 559.84955
+        height: 417.89865
+      alignment: 9
+      pivot: {x: 0.50504845, y: 0.4989247}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_9
+      rect:
+        serializedVersion: 2
+        x: 1800.5408
+        y: 652
+        width: 121.43945
+        height: 303.98102
+      alignment: 9
+      pivot: {x: 0.4978549, y: 0.49838638}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_10
+      rect:
+        serializedVersion: 2
+        x: 2144.4534
+        y: 679
+        width: 159.40234
+        height: 259.8838
+      alignment: 9
+      pivot: {x: 0.49902898, y: 0.49829966}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_11
+      rect:
+        serializedVersion: 2
+        x: 1754.5526
+        y: 285
+        width: 125.11328
+        height: 274.5829
+      alignment: 9
+      pivot: {x: 0.49513137, y: 0.49711755}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    - serializedVersion: 2
+      name: tonbo_12
+      rect:
+        serializedVersion: 2
+        x: 2172.4463
+        y: 283.00003
+        width: 178.9961
+        height: 274.58286
+      alignment: 9
+      pivot: {x: 0.5003096, y: 0.49893865}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+    outline: []
+    physicsShape: []
+  spritePackingTag: 
+  userData: 100781548503040
+  assetBundleName: 
+  assetBundleVariant: 

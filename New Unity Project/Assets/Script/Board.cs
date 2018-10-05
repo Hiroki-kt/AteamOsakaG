@@ -1,0 +1,954 @@
+﻿using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using System.Linq;
+using UnityEngine.UI;
+
+// 盤面クラス
+public class Board : MonoBehaviour {
+
+	// serialize field.
+	[SerializeField]
+	private GameObject piecePrefab;
+    //[SerializeField]
+    //private GameObject lightPrefab;
+    [SerializeField]
+    private ParticleSystem effect;
+    [SerializeField]
+    private Camera effectCamera;
+    [SerializeField]
+    private Text ChainText;
+    [SerializeField]
+    private Text BaffText;
+    [SerializeField]
+    private Text ConboText;
+    [SerializeField]
+    private ParticleSystem BaffEffect;
+    [SerializeField]
+    private Text StartText;
+    [SerializeField]
+    private Text GoalText;
+    [SerializeField]
+    private Image MaskSuccess;
+
+
+    // private.
+    private Piece[,] board;
+    private Piece[,] rotboard;
+    //private GameManager gameManager;
+	private int width;
+	private int height;
+	private int pieceWidth;
+	//private int randomSeed;
+	private List<Piece> removableBallList;
+    private List<string> ColorList;
+    private List<string> ColorTypeList;
+    private List<int> ColorIdList;
+    private List<string> TypeList;
+	private Piece LastPiece;
+	private string currentType;
+	private string currentColor;
+	private Piece firstPiece;
+    private string TF;
+    private Vector2[] directions = new Vector2[] { Vector2.up, Vector2.down, Vector2.right, Vector2.left };
+    private int ConboCount = 0;
+    private int muchcount = 0;
+    private float lastoffbaff = 0;
+    private float lastdffbaff = 0;
+    private float lastsklbaff = 0;
+
+    public AudioSource audioSource;
+    public AudioClip sound01;
+    public AudioClip sound02;
+    public AudioClip sound03;
+    public AudioClip sound04;
+    public AudioClip baf;
+
+    //-------------------------------------------------------
+    // Public Function
+    //-------------------------------------------------------
+    // 特定の幅と高さに盤面を初期化する
+    public void InitializeBoard(int boardWidth, int boardHeight)
+	{
+        // ピースの大きさを調整します
+        width = boardWidth;
+        height = boardHeight;
+
+        pieceWidth = Screen.width / (boardWidth + 2);
+
+        // ボード調整ーーーーーーーーーーーーーーーーーーーーーーーーーーーー
+        var target = GameObject.Find("Board").transform;
+        var canvas = GameObject.Find("Canvas").transform;
+
+        // ボードの大きさを調整します→回転が簡単になるように
+        // 現在使ってない
+        var boardsize = target.GetComponent<RectTransform>().sizeDelta;
+        boardsize.x = Screen.width + 70;
+        boardsize.y = Screen.width + 70;
+        target.GetComponent<RectTransform>().sizeDelta = boardsize;
+
+        // ボードの位置を調整
+        var createPos = GetPieceRealWorldPos(new Vector2(0, 0));
+        var createPos2 = GetPieceRealWorldPos(new Vector2(5, 0));
+
+        var canvaspos = canvas.transform.position;
+        var boardpos = target.transform.localPosition;
+        //Debug.Log(boardpos);
+        boardpos.x = canvaspos.x - createPos.x;
+        boardpos.y = (canvaspos.y - createPos2.y) * -1;
+        //Debug.Log(canvaspos - board[5, 0].transform.position);
+        target.transform.localPosition = boardpos;
+        //Debug.Log(canvaspos - createPos);
+        //Debug.Log(canvaspos - createPos2);
+        //Debug.Log(boardpos);
+        //Debug.Log(canvaspos);
+        //Debug.Log(createPos2);
+        //Debug.Log(board[5, 5].transform.position.y);
+
+
+		board = new Piece[width, height];
+
+		for (int i = 0; i < boardWidth; i++)
+		{
+			for (int j = 0; j < boardHeight; j++)
+			{
+				CreatePiece(new Vector2(i, j));
+			}
+		}
+        //Debug.Log(board[5, 0].transform.position);
+
+
+    }
+
+    // 入力されたクリック(タップ)位置から最も近いピースの位置を返す
+    public Piece GetNearestPiece(Vector3 input)
+	{
+		var minDist = float.MaxValue;
+		Piece nearestPiece = null;
+
+		// 入力値と盤面のピース位置との距離を計算し、一番距離が短いピースを探す
+		foreach (var p in board)
+		{
+			var dist = Vector3.Distance(input, p.transform.position);
+			if (dist < minDist)
+			{
+				minDist = dist;
+				nearestPiece = p;
+			}
+		}
+
+		return nearestPiece;
+	}
+
+	// 盤面上のピースを交換する
+	public void SwitchPiece(Piece p1, Piece p2)
+	{
+		// 位置を移動する
+		var p1Position = p1.transform.position;
+		p1.transform.position = p2.transform.position;
+		p2.transform.position = p1Position;
+
+		// 盤面データを更新する
+		var p1BoardPos = GetPieceBoardPos(p1);
+		var p2BoardPos = GetPieceBoardPos(p2);
+		board[(int)p1BoardPos.x, (int)p1BoardPos.y] = p2;
+		board[(int)p2BoardPos.x, (int)p2BoardPos.y] = p1;
+	}
+
+	// 盤面上にマッチングしているピースがあるかどうかを判断する
+	public bool HasMatch()
+	{
+		foreach (var piece in board)
+		{
+			if (IsMatchPiece(piece))
+			{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	// マッチングしているピースを削除する
+	public IEnumerator DeleteMatchPiece(Action endCallBack)
+	{
+        /*
+		// マッチしているピースの削除フラグを立てる
+        // マッチしたもの一気に消す
+		foreach (var piece in board)
+		{
+			piece.deleteFlag = IsMatchPiece(piece);
+		}
+
+		// 削除フラグが立っているオブジェクトを削除する
+		foreach (var piece in board)
+		{
+			if (piece != null && piece.deleteFlag)
+			{
+				Destroy(piece.gameObject);
+			}
+        }
+        yield return new WaitForSeconds(1f);
+        endCallBack();
+        */
+
+        // マッチしたものを順番に消す。（パズドラ風）
+        foreach (var piece in board)
+        {
+            if (piece != null && IsMatchPiece(piece))
+            {
+                var pos = GetPieceBoardPos(piece);
+                var color = piece.GetKindColor();
+                var type = piece.GetKindType();
+                DestroyMatchPiece(pos, piece.GetKind());
+                yield return new WaitForSeconds(0.5f);
+
+                ConboCount += 1;
+                ConboText.text = ConboCount.ToString() + "Conbo";
+                //var conbotext = Instantiate(ConboText, GetPieceRealWorldPos(pos), Quaternion.identity);
+                //var canvas = GameObject.Find("Canvas").transform;
+                ConboText.gameObject.SetActive(true);
+                ConboText.transform.position = GetPieceRealWorldPos(pos);
+                yield return new WaitForSeconds(1f);
+                ConboText.gameObject.SetActive(false);
+
+                if (type == "Deffence"){
+                    var bafdf = muchcount * 10;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateDEF");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerDEFc += bafdf;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4DEFc += bafdf;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2DEFc += bafdf;
+                    }
+                    else
+                    {
+                        BattleManager.No3DEFc += bafdf;
+                    }
+                    lastoffbaff += bafdf;
+
+                }
+                else if (type == "Offence")
+                {
+                    var bafof = muchcount * 10;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateOff");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerATKc += bafof;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4ATKc += bafof;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2ATKc += bafof;
+                    }
+                    else
+                    {
+                        BattleManager.No3ATKc += bafof;
+                    }
+                    lastoffbaff += bafof;
+                }
+                else if(type == "Skill")
+                {
+                    var skl = muchcount;
+                    muchcount = 0;
+                    var cuntrot = GameManager.countRotaion;
+                    cuntrot = cuntrot % 4;
+                    //Debug.Log("calculateDEF");
+                    //Debug.Log(cuntrot);
+                    if (cuntrot == 1)
+                    {
+                        BattleManager.PlayerSKLc -= skl;
+                    }
+                    else if (cuntrot == 2)
+                    {
+                        BattleManager.No4SKLc -= skl;
+                    }
+                    else if (cuntrot == 3)
+                    {
+                        BattleManager.No2SKLc -= skl;
+                    }
+                    else
+                    {
+                        BattleManager.No3SKLc -= skl;
+                    }
+                    lastsklbaff += skl;
+                }                
+                //conbotext.transform.SetParent(canvas);
+            }
+        }
+
+        endCallBack();
+    }
+
+	// ピースが消えている場所を詰めて、新しいピースを生成する
+	public IEnumerator FillPiece(Action endCallBack)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < height; j++)
+			{
+				FillPiece(new Vector2(i, j));
+			}
+		}
+        yield return new WaitForSeconds(1f);
+        endCallBack();
+	}
+
+	// 回転
+    // 初期座標の調整が本来は必要
+    public IEnumerator Rotation(float rot, Action endCallBack){
+        BaffEffect.gameObject.SetActive(false);
+
+        // 回転します。ボードごと回転。
+        float speed =1f;
+        float step = speed * Time.deltaTime;
+        var target = GameObject.Find("Board").transform;
+        var target2 = GameObject.Find("hagaoaf").transform;
+
+        audioSource.PlayOneShot(sound03);
+        // /*
+        while (transform.rotation != Quaternion.Euler(0,0,rot)){
+            // 指定した方向にゆっくり回転する場合
+            transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
+            target2.transform.rotation = Quaternion.Slerp(target2.transform.rotation, Quaternion.Euler(0, 0, rot), step);
+            //Debug.Log(transform.rotation);
+
+            //audioSource.PlayOneShot(sound03);
+
+            yield return new WaitForSeconds(0.0003f);
+        }
+        // */
+
+        //transform.rotation = Quaternion.Slerp(transform.rotation, Quaternion.Euler(0, 0, rot), step);
+        // 回転後の座標の変換
+        rotboard = new Piece[width, height];
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                RotationPiece(new Vector2 (i,j));
+                board[i, j].transform.rotation = Quaternion.Euler(0, 0, 0);
+                board[i, j].SetPieceAlpha(1.0f);
+            }
+        }
+        board = rotboard;
+        //Debug.Log(board[0, 0].transform.position);
+        endCallBack();
+	}
+
+
+    //　一旦赤色をキャラの属性と考える
+    // キャラの属性導入後、キャラの属性取得実装
+    public void GetCalculation()
+    {
+        ColorTypeList = new List<string>();
+        ColorIdList = new List<int>();
+        // 一番目の同属性のピースの番号
+        int ColorId = ColorList.IndexOf("Red");
+        if (ColorId != -1){
+            ColorIdList.Add(ColorId);
+    
+        }
+
+        // キャラと同属性のピース探し
+        while (ColorId != -1)
+        {
+            ColorId = ColorList.IndexOf("Red", ColorId + 1);
+            ColorIdList.Add(ColorId);
+
+        }
+
+        if (ColorIdList.Count > 0)
+        {
+            // キャラと同属性のピースの番号と同じ番号のタイプを取得
+            for (int i = 0; i > ColorIdList.Count(); i++)
+            {
+                ColorTypeList.Add(TypeList[ColorIdList[i]]);
+            }
+            GetCalulationOff();
+            //BattleManager.No2ATKc = GetCalculationoff();
+            //Debug.Log("Offence");
+            //Debug.Log(GetCalulationOff());
+            GetCalulationDef();
+            //Debug.Log("Defence");
+            //Debug.Log(GetCalulationDef());
+            GetCalulationSki();
+            //Debug.Log("Skill");
+            //Debug.Log(GetCalulationSki());
+        }else{
+            GetCalulationOffNotColor();
+            //Debug.Log("Offence");
+            //Debug.Log(GetCalulationOffNotColor());
+            GetCalulationDefNotColor();
+            //Debug.Log("Defence");
+            //Debug.Log(GetCalulationDefNotColor());
+            GetCalulationSkiNotColor();
+            //Debug.Log("Skill");
+            //Debug.Log(GetCalulationSkiNotColor());
+        }
+
+    }
+
+    public IEnumerator SetIdleMode(Action endCallBack){
+        StartText.gameObject.SetActive(false);
+        GoalText.gameObject.SetActive(false);
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i, j].SetPieceAlpha(1.0f);
+            }
+        }
+        yield return new WaitForSeconds(1f);
+        endCallBack();
+    }
+
+
+	//---------------------------------------------------------
+	// Public  なぞり動作
+	//---------------------------------------------------------
+    public IEnumerator SetTrackingMode(Action endCallBack){
+        for (int i = 0; i < width; i++)
+        {
+            for (int j = 0; j < height; j++)
+            {
+                board[i, j].SetPieceAlpha(0.5f);
+            }
+        }
+        yield return new WaitForSeconds(0.3f);
+        board[5, 5].SetPieceAlpha(1.0f);
+        StartText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        board[0, 0].SetPieceAlpha(1.0f);
+        GoalText.gameObject.SetActive(true);
+        yield return new WaitForSeconds(0.3f);
+        endCallBack();
+    }
+
+	public void OnDragStart(Piece piece) {
+		//var col = piece;
+		if (piece != null) {
+			//var colObj = (GameObject)col;
+			removableBallList = new List<Piece>();//初期化
+            ColorList = new List<string>();
+            TypeList = new List<string>();
+			firstPiece = piece;
+			currentType = piece.GetKindType();
+			currentColor = piece.GetKindColor();
+			PushToList(piece, currentColor, currentType);
+		}
+	}
+
+	public void OnDragging(Piece piece) {
+		if (piece != null) {
+			//なにかをドラッグしているとき
+			//var colObj = col.gameObject;
+			var piececolor = piece.GetKindColor ();
+			var piecetype = piece.GetKindType ();
+			if (piececolor == currentColor || piecetype == currentType) {
+				//現在リストに追加している色と同じ色のボールのとき
+				if (LastPiece != piece) {
+					//直前にリストにいれたのと異なるボールのとき
+					var dist = Vector3.Distance (LastPiece.transform.position, piece.transform.position); //直前のボールと現在のボールの距離を計算
+                    if (dist <= (float)pieceWidth * 1.2f) {
+                        if(removableBallList.Any(x => x == piece) == false){
+                            //ボール間の距離が一定値以下のとき
+                            PushToList(piece, piececolor, piecetype); //消去するリストにボールを追加
+
+                            audioSource.PlayOneShot(sound01);
+
+                            //CreateLight(piece);
+                            currentType = piecetype;
+                            currentColor = piececolor;
+
+                        }
+                    }
+				}
+			}
+		}
+	}
+
+    // スタートとゴールの値があったら、消すそれ以外は戻す
+	public IEnumerator OnDragEnd(Action endCallBack) {
+        //1つ以上のボールをなぞっているとき
+        var length = removableBallList.Count;
+        if (firstPiece != null) {
+            //音ならしたい
+
+            audioSource.PlayOneShot(sound04);
+
+            MaskSuccess.gameObject.SetActive(true);
+            StartText.gameObject.SetActive(false);
+            GoalText.gameObject.SetActive(false);
+            yield return new WaitForSeconds(0.5f);
+            MaskSuccess.gameObject.SetActive(false);
+			for (var i = 0; i < length; i++) {
+                var pos = effectCamera.ScreenToWorldPoint(removableBallList[i].transform.position + effectCamera.transform.forward * 10);
+                effect.transform.position = pos;
+                effect.Emit(1);
+                Destroy(removableBallList[i].gameObject); //リストにあるボールを消去
+
+                audioSource.PlayOneShot(sound02);
+
+                yield return new WaitForSeconds(0.1f);
+            }
+			
+			firstPiece = null; //変数の初期化
+		}
+        ChainText.gameObject.SetActive(true);
+        ChainText.text = length.ToString() + "Chain";
+        yield return new WaitForSeconds(2f);
+        BaffEffect.Emit(1);
+
+        audioSource.PlayOneShot(baf);
+
+        BaffEffect.gameObject.SetActive(true);
+        ChainText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(1f);
+        endCallBack();
+	}
+
+    public void OnDragEndNG()
+    {
+        for (var j = 0; j < removableBallList.Count;j++){
+            var listedBall = removableBallList[j];
+            listedBall.SetPieceAlpha(0.5f);
+        }
+
+    }
+
+    // スタートとゴールのピースが含まれているか？
+    public string GetStartGoal(){
+        TF = null;
+        //Debug.Log(removableBallList[0].transform.position);
+        //Debug.Log(board[5, 5].transform.position);
+        //Debug.Log(board[0, 0].transform.position);
+        //Debug.Log(removableBallList[removableBallList.Count -1].transform.position);
+        if(removableBallList[removableBallList.Count - 1].transform.position == board[0,0].transform.position && removableBallList[0].transform.position == board[5,5].transform.position){
+            TF = "True";
+        }
+        else{
+            TF = "False";
+        }
+        return TF;
+    }
+
+    // UIでテキストをつける
+    // 背景入れる
+    public IEnumerator ViewBaff(Action endCallBack){
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Offence" + lastoffbaff.ToString() + "UP!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Deffence" + lastdffbaff.ToString() + "UP!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(true);
+        BaffText.text = "Skill Time" + lastsklbaff.ToString() + "DOWN!!";
+        yield return new WaitForSeconds(0.5f);
+        BaffText.gameObject.SetActive(false);
+        endCallBack();
+    }
+
+    //-------------------------------------------------------
+    // Private Function
+    //-------------------------------------------------------
+    // 特定の位置にピースを作成する
+    private void CreatePiece(Vector2 position)
+	{
+		// ピースの生成位置を求める
+		var createPos = GetPieceWorldPos(position);
+		// 45°回転
+		Quaternion rot = Quaternion.AngleAxis(45.0f,Vector3.forward);
+		createPos = rot * createPos + (float)Screen.width/2 * new Vector3(1,0,0);
+		// 生成するピースの種類をランダムに決める
+		var kind = (PieceKind)UnityEngine.Random.Range(0, Enum.GetNames(typeof(PieceKind)).Length);
+
+		// ピースを生成、ボードの子オブジェクトにする
+		var piece = Instantiate(piecePrefab, createPos, Quaternion.identity).GetComponent<Piece>();
+		piece.transform.SetParent(transform);
+        //Debug.Log(piece.transform.position);
+        var imagesize = (float)pieceWidth * 1.2f;
+		piece.SetSize((int)imagesize);
+		piece.SetKind(kind);
+        //Debug.Log(piece.transform.position);
+
+		// 盤面にピースの情報をセットする
+		board[(int)position.x, (int)position.y] = piece;
+        //Debug.Log(piece.transform.position);
+	
+	}
+
+    /*
+    private void CreateLight(Piece piece){
+        // ピースの生成位置を求める
+        var lightpos = piece.transform.position;
+
+        // ピースを作成
+        //var light = Instantiate(lightPrefab, lightpos, Quaternion.identity).GetComponent<LensFlare>();
+        Instantiate(lightPrefab, lightpos, Quaternion.identity);
+    }
+    */
+
+	// 盤面上の位置からピースオブジェクトのワールド座標での位置を返す
+	private Vector3 GetPieceWorldPos(Vector2 boardPos)
+	{
+        return new Vector3(boardPos.x * pieceWidth + (pieceWidth / 2), boardPos.y * pieceWidth + (pieceWidth / 2), 0);
+
+	}
+
+    private Vector3 GetPieceRealWorldPos(Vector2 boardPos)
+    {
+        var worldpos = new Vector3(boardPos.x * pieceWidth + (pieceWidth / 2), boardPos.y * pieceWidth + (pieceWidth / 2), 0);
+        Quaternion rot = Quaternion.AngleAxis(45.0f, Vector3.forward);
+        return rot * worldpos + (float)Screen.width / 2 * new Vector3(1, 0, 0);
+
+    }
+
+
+	// ピースが盤面上のどの位置にあるのかを返す
+	private Vector2 GetPieceBoardPos(Piece piece)
+	{
+		for (int i = 0; i < width; i++)
+		{
+			for (int j = 0; j < height; j++)
+			{
+				if (board[i, j] == piece)
+				{
+					return new Vector2(i, j);
+				}
+			}
+		}
+
+		return Vector2.zero;
+	}
+
+    // 対象のピースがマッチしているかの判定を行う
+    private bool IsMatchPiece(Piece piece)
+    {
+        // ピースの情報を取得
+        var pos = GetPieceBoardPos(piece);
+        //var color = piece.GetKindColor();
+        //var type = piece.GetKindType ();
+        var kind = piece.GetKind();
+
+        // 縦方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
+        var verticalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.up) + GetSameKindPieceNum(kind, pos, Vector2.down) + 1;
+        //var verticalMatchCountType = GetSameKindPieceNumType(type, pos, Vector2.up) + GetSameKindPieceNumType(type, pos, Vector2.down) + 1;
+
+        // 横方向にマッチするかの判定 MEMO: 自分自身をカウントするため +1 する
+        var horizontalMatchCount = GetSameKindPieceNum(kind, pos, Vector2.right) + GetSameKindPieceNum(kind, pos, Vector2.left) + 1;
+        //var horizontalMatchCountType = GetSameKindPieceNumType(type, pos, Vector2.right) + GetSameKindPieceNumType(type, pos, Vector2.left) + 1;
+
+        return verticalMatchCount >= GameManager.MachingCount || horizontalMatchCount >= GameManager.MachingCount;
+    }
+
+	// 対象の方向に引数で指定したの種類のピースがいくつあるかを返す
+	// ピース色の確認
+	private int GetSameKindPieceNum(PieceKind kind, Vector2 piecePos, Vector2 searchDir)
+	{
+		var count = 0;
+		while (true)
+		{
+			piecePos += searchDir;
+			if (IsInBoard(piecePos) && board[(int)piecePos.x, (int)piecePos.y].GetKind() == kind)
+			{
+				count++;
+			}
+			else
+			{
+				break;
+			}
+		}
+		return count;
+	}
+
+
+
+	// 対象の座標がボードに存在するか(ボードからはみ出していないか)を判定する
+	private bool IsInBoard(Vector2 pos)
+	{
+		return pos.x >= 0 && pos.y >= 0 && pos.x < width && pos.y < height;
+	}
+
+	// 特定のピースのが削除されているかを判断し、削除されているなら詰めるか、それができなければ新しく生成する
+	private void FillPiece(Vector2 pos)
+	{
+		var piece = board[(int)pos.x, (int)pos.y];
+		if (piece != null && !piece.deleteFlag)
+		{
+			// ピースが削除されていなければ何もしない
+			return;
+		}
+
+		
+		// 実際はこの部分もしっかり考える必要有り。一旦パス
+		// 対象のピースより上方向に有効なピースがあるかを確認、あるなら場所を移動させる
+		var checkPos = pos + Vector2.up;
+		while (IsInBoard(checkPos))
+		{
+			var checkPiece = board[(int)checkPos.x, (int)checkPos.y];
+			if (checkPiece != null && !checkPiece.deleteFlag)
+			{
+				checkPiece.transform.position = GetPieceRealWorldPos(pos);
+				board[(int)pos.x, (int)pos.y] = checkPiece;
+				board[(int)checkPos.x, (int)checkPos.y] = null;
+				return;
+			}
+			checkPos += Vector2.up;
+		}
+		
+
+		// 有効なピースがなければ新しく作る
+		CreatePiece(pos);
+	}
+		
+
+	private void PushToList(Piece obj, string color, string type) {
+		LastPiece = obj;
+		// 色半透明に変更
+		obj.SetPieceAlpha (1.0f);
+		removableBallList.Add(obj);
+        ColorList.Add(color);
+        TypeList.Add(type);
+	}
+
+	// 回転後の座標更新
+    private void RotationPiece(Vector2 Pos){
+        
+        var worldPos = GetPieceRealWorldPos(Pos);
+        // 90°回転
+
+		Quaternion rot = Quaternion.AngleAxis(90.0f, Vector3.forward);
+        Quaternion rotback = Quaternion.AngleAxis(-45.0f, Vector3.forward);
+        // ピースの生成位置を求める
+
+        var createPos = rot * worldPos + (float)Screen.width / 2 * new Vector3(1, 0, 0);
+
+        createPos = rotback * createPos ;
+
+        var boardPos = new Vector2((createPos.x - (pieceWidth / 2)) / pieceWidth + 0.35f , (createPos.y - (pieceWidth / 2)) / pieceWidth + 0.35f);
+
+        if (boardPos.x < 0){
+            boardPos.x = 0.0f;
+        }
+       
+        //Debug.Log((int)Pos.x);
+        //Debug.Log((int)Pos.y);
+
+        //Debug.Log(board[(int)Pos.x,(int)Pos.y].transform.position);
+        //Debug.Log(board[(int)boardPos.x, (int)boardPos.y].transform.position);
+        rotboard[(int)boardPos.x, (int)boardPos.y] = board[(int)Pos.x,(int)Pos.y];
+        //Debug.Log(rotboard[(int)boardPos.x, (int)boardPos.y].transform.position);
+	}
+
+    // キャラと同属性は個数×３、その他は個数×１　それぞれのタイプのステータス上昇
+    private void GetCalulationOff()
+    {
+        var bafof = 10 * TypeList.Count(x => x == "Offence") + 2 * ColorTypeList.Count(x => x == "Offence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateOff");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerATKc += bafof;
+        }
+        else if(cuntrot == 2){
+            BattleManager.No4ATKc += bafof;
+        }
+        else if(cuntrot == 3){
+            BattleManager.No2ATKc += bafof;
+        }
+        else{
+            BattleManager.No3ATKc += bafof;
+        }
+        lastoffbaff += bafof;
+    }
+
+    private void GetCalulationDef()
+    {
+        var bafdf = 10 * TypeList.Count(x => x == "Defence") + 2 * ColorTypeList.Count(x => x == "Defence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerDEFc += bafdf;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4DEFc += bafdf;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2DEFc += bafdf;
+        }
+        else
+        {
+            BattleManager.No3DEFc += bafdf;
+        }
+        lastdffbaff += bafdf;
+
+    }
+
+    private void GetCalulationSki()
+    {
+        var skl = TypeList.Count(x => x == "Skill") + 2 * ColorTypeList.Count(x => x == "Skill");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerSKLc -= skl;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4SKLc -= skl;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2SKLc -= skl;
+        }
+        else
+        {
+            BattleManager.No3SKLc -= skl;
+        }
+        lastsklbaff += skl;
+    }
+
+    private void GetCalulationOffNotColor()
+    {
+        var bafof = 10 * TypeList.Count(x => x == "Offence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerATKc += bafof;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4ATKc += bafof;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2ATKc += bafof;
+        }
+        else
+        {
+            BattleManager.No3ATKc += bafof;
+        }
+        lastoffbaff += bafof;
+    }
+
+    private void GetCalulationDefNotColor()
+    {
+        var bafdf = 10 * TypeList.Count(x => x == "Defence");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerDEFc += bafdf;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4DEFc += bafdf;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2DEFc += bafdf;
+        }
+        else
+        {
+            BattleManager.No3DEFc += bafdf;
+        }
+        lastdffbaff += bafdf;
+    }
+
+    private void GetCalulationSkiNotColor()
+    {
+        var skl =  TypeList.Count(x => x == "Skill");
+        var cuntrot = GameManager.countRotaion;
+        cuntrot = cuntrot % 4;
+        //Debug.Log("calculateDEF");
+        //Debug.Log(cuntrot);
+        if (cuntrot == 1)
+        {
+            BattleManager.PlayerSKLc -= skl;
+        }
+        else if (cuntrot == 2)
+        {
+            BattleManager.No4SKLc -= skl;
+        }
+        else if (cuntrot == 3)
+        {
+            BattleManager.No2SKLc -= skl;
+        }
+        else
+        {
+            BattleManager.No3SKLc -= skl;
+        }
+        lastsklbaff += skl;
+    }
+
+    // 特定のピースがマッチしている場合、ほかのマッチしたピースとともに削除する
+    private void DestroyMatchPiece(Vector2 pos, PieceKind kind)
+    {
+        // ピースの場所が盤面以外だったら何もしない
+        if (!IsInBoard(pos))
+        {
+            return;
+        }
+
+        // ピースが無効であったり削除フラグが立っていたりそもそも、種別がちがうならば何もしない
+        var piece = board[(int)pos.x, (int)pos.y];
+        if (piece == null || piece.deleteFlag || piece.GetKind() != kind)
+        {
+            return;
+        }
+
+        // ピースが同じ種類でもマッチングしてなければ何もしない
+        if (!IsMatchPiece(piece))
+        {
+            return;
+        }
+
+        // 削除フラグをたてて、周り４方のピースを判定する
+        piece.deleteFlag = true;
+        foreach (var dir in directions)
+        {
+            DestroyMatchPiece(pos + dir, kind);
+        }
+
+        // ピースを削除する
+        Destroy(piece.gameObject);
+        muchcount += 1;
+    }
+
+}
